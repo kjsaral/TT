@@ -11,6 +11,8 @@ from .models import Constants
 def vars_for_all_templates(self):
     return {'instructions': 'trust/Instructions.html', 'total_q': 1}
 
+class Page(Page):
+    timeout_seconds = 15
 
 class Introduction(Page):
 
