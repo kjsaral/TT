@@ -14,6 +14,7 @@ def vars_for_all_templates(self):
 class Page(Page):
     timeout_seconds = 15
 
+
 class Introduction(Page):
 
     template_name = 'global/Introduction.html'
@@ -32,6 +33,11 @@ class Question1(Page):
         'participant A. In the end, how many points would participant A and B '
         'have?'
     )
+
+    auto_submit_values = {
+        'training_answer_x': 4,
+        'training_answer_y': 5,
+    }
 
     def is_displayed(self):
         return self.subsession.round_number == 1
@@ -62,6 +68,10 @@ class Send(Page):
     form_model = models.Group
     form_fields = ['sent_amount']
 
+    auto_submit_values = {
+        'sent_amount': Constants.amount_allocated
+    }
+
     def is_displayed(self):
         return self.player.id_in_group == 1
 
@@ -74,6 +84,10 @@ class SendBack(Page):
 
     form_model = models.Group
     form_fields = ['sent_back_amount']
+
+    auto_submit_values = {
+        'sent_back_amount': Constants.amount_allocated
+    }
 
     def is_displayed(self):
         return self.player.id_in_group == 2
@@ -111,7 +125,7 @@ class Results(Page):
 
 
 page_sequence =  [
-        Introduction,
+        #Introduction,
         Question1,
         Feedback,
         Send,

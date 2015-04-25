@@ -5,6 +5,11 @@ from ._builtin import Page, WaitPage
 from otree.common import Currency as c, currency_range
 from .models import Constants
 
+class Page(Page):
+
+    timeout_seconds = 10
+
+
 def vars_for_all_templates(self):
     return {
             'endowment': Constants.endowment,
@@ -31,6 +36,9 @@ class Question(Page):
     form_model = models.Player
     form_fields = ['question']
 
+    auto_submit_values = {
+        'question': c(9)
+    }
 
 class Feedback(Page):
     def is_displayed(self):
@@ -46,6 +54,7 @@ class Contribute(Page):
     form_fields = ['contribution']
 
     auto_submit_values = {'contribution': c(Constants.endowment/2)}
+
 
 
 class ResultsWaitPage(WaitPage):
