@@ -10,13 +10,17 @@ import otree.settings
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
+# The environment variable OTREE_PRODUCTION controls whether Django uses DEBUG.
+# More about DEBUG here:
+# https://docs.djangoproject.com/en/1.8/ref/settings/#debug
 if os.environ.get('OTREE_PRODUCTION') in {None, '', '0'}:
     DEBUG = True
 else:
     DEBUG = False
 
+# IS_OTREE_DOT_ORG is a setting only used by the creators of oTree on our public site demo.otree.org.
 if os.environ.get('IS_OTREE_DOT_ORG') in {None, '', '0'}:
+    ADMIN_USERNAME = 'admin'
     ADMIN_PASSWORD = 'otree'
     # don't share this with anybody.
     # Change this to something unique (e.g. mash your keyboard),
@@ -24,6 +28,7 @@ if os.environ.get('IS_OTREE_DOT_ORG') in {None, '', '0'}:
     SECRET_KEY = 'zzzzzzzzzzzzzzzzzzzzzzzzzzz'
     PAGE_FOOTER = ''
 else:
+    ADMIN_USERNAME = 'admin'
     ADMIN_PASSWORD = os.environ['OTREE_ADMIN_PASSWORD']
     SECRET_KEY = os.environ['OTREE_SECRET_KEY']
     PAGE_FOOTER = ''
@@ -36,17 +41,25 @@ DATABASES = {
 }
 
 
-ADMIN_USERNAME = 'admin'
+# If you are launching an experiment and want visitors to only be able to play your app if you provided them with a start link,
+# set the environment variable OTREE_AUTH_LEVEL to EXPERIMENT.
+# If you would like to put your site online in public demo mode where anybody can play a demo version of your game,
+# set OTREE_AUTH_LEVEL to DEMO. This will allow people to play in demo mode, but not access the full admin interface.
 AUTH_LEVEL = os.environ.get('OTREE_AUTH_LEVEL')
+
+# The purpose of this setting is to prevent unauthorized server access when using persistent URLs
+# This gets appended to the URL to start playing the default session.
+# You can change it as frequently as you'd like.
 ACCESS_CODE_FOR_DEFAULT_SESSION = 'idd1610'
 
 # settting for intergration with AWS Mturk
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
-
 # e.g. EUR, CAD, GBP, CHF, CNY, JPY
 REAL_WORLD_CURRENCY_CODE = 'USD'
+
+# if this is True, then in-game currency amounts will be expressed in points rather than real money.
 USE_POINTS = True
 
 
@@ -89,13 +102,16 @@ DEMO_PAGE_INTRO_TEXT = """
 # http://docs.aws.amazon.com/AWSMechTurk/latest/AWSMturkAPI/ApiReference_QualificationRequirementDataStructureArticle.html
 # and also in docs for boto:
 # https://boto.readthedocs.org/en/latest/ref/mturk.html?highlight=mturk#module-boto.mturk.qualification
-
 MTURK_WORKER_REQUIREMENTS = [
     LocaleRequirement("EqualTo", "US"),
     PercentAssignmentsApprovedRequirement("GreaterThanOrEqualTo", 50),
     NumberHitsApprovedRequirement("GreaterThanOrEqualTo", 5)
 ]
 
+
+# these are the defaults for each setting.
+# to modify a setting for all session types, modify it here.
+# to modify it just for one session type, modify it in SESSION_TYPES further down.
 SESSION_TYPE_DEFAULTS = {
     'real_world_currency_per_point': 0.01,
     'fixed_pay': 10.00,
