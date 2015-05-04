@@ -8,7 +8,7 @@ killgroup(){
 }
 
 web() {
-    gunicorn wsgi
+    newrelic-admin run-program gunicorn wsgi
 }
 
 worker() {
