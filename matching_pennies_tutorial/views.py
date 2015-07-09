@@ -5,6 +5,9 @@ from ._builtin import Page, WaitPage
 from otree.common import Currency as c, currency_range
 from .models import Constants
 
+class Page(Page):
+    timeout_seconds = 15
+
 class Choice(Page):
 
     form_model = models.Player
