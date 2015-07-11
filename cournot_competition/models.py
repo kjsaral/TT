@@ -47,7 +47,7 @@ class Constants:
 
 class Subsession(otree.models.BaseSubsession):
 
-    name_in_url = 'cournot_competition'
+    pass
 
 
 class Group(otree.models.BaseGroup):

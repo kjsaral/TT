@@ -27,8 +27,10 @@ class Constants:
 
 
 class Subsession(otree.models.BaseSubsession):
-    pass
+    multiplication_factor = models.FloatField()
 
+    def before_session_starts(self):
+        self.multiplication_factor = random.random()
 
 class Group(otree.models.BaseGroup):
     # <built-in>
