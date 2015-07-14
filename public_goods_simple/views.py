@@ -11,7 +11,7 @@ from .models import Constants
 class Contribute(Page):
 
     form_model = models.Player
-    form_fields = ['contribution']
+    form_fields = ['contribution', 'decimal', 'floating']
 
 
 class ResultsWaitPage(WaitPage):

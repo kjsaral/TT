@@ -17,6 +17,10 @@
 
     {% formfield player.contribution with label="How much will you contribute?" %}
 
+        {% formfield player.decimal %}
+    {% formfield player.floating %}
+
+
     {% next_button %}
 
 {% endblock %}

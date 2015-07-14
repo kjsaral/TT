@@ -54,3 +54,5 @@ class Player(otree.models.BasePlayer):
     # </built-in>
 
     contribution = models.CurrencyField(min=0, max=Constants.endowment)
+    decimal = models.DecimalField(decimal_places=3, max_digits=12)
+    floating = models.FloatField()
