@@ -126,14 +126,12 @@ SESSION_CONFIG_DEFAULTS = {
 }
 
 SESSION_CONFIGS = [
-    #~ {
-        #~ 'name': 'lemon_market',
-        #~ 'display_name': "Lemon Market Game",
-        #~ 'num_demo_participants': 3,
-        #~ 'app_sequence': [
-            #~ 'lemon_market', 'payment_info'
-        #~ ],
-    #~ },
+    {
+        'name': 'real_effort',
+        'display_name': "Real Effort",
+        'num_demo_participants': 1,
+        'app_sequence': ['real_effort'],
+    },
 ]
 
 

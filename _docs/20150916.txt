@@ -1,0 +1,27 @@
+Hi Juan,
+
+First, thank you for sending this!  I have never seen a project assessment like
+this and find it very cool.
+
+Second, I think your main question is on logins.  I like your idea.  We can do
+individual URLs for each person defined by the four types.
+
+And just to a make sure the design we sent was clear - we have 4 types, but the
+only thing that changes in the program for each type is the text they see (so I
+think the program is the same, except for certain parts where text is entered).
+
+Two questions:
+1. If we use the URL design you propose - if someone closes their browsers,
+   they input the URL and they will go back to the same place they were,
+   correct?
+2. We will have a time limit on some pages - e.g. 20 minutes to do work and
+   then they are automatically redirected to the next page.  If someone closes
+   their browser during this time, can you tell me how the program will handle
+   it?
+
+And I'd like to confirm that we would like to start this with you.  I can do a
+wire transfer for payment to your account (I need your bank info to make the
+transfer) - maybe half to start and half at the end?  Whatever you like best.
+
+
+Thank you!
