@@ -100,7 +100,7 @@ class Transcription(Page):
 
     def transcripted_text_error_message(self, value):
         is_close_enough, distance = text_is_close_enough(
-            value, player.transcription_text, Constants.dtol)
+            value, self.player.transcription_text, Constants.dtol)
         player.text_intents = (player.text_intents or 0) + 1
         if is_close_enough:
             player.text_distance = distance
