@@ -15,8 +15,8 @@ TEXTS.append([
 TEXTS.append([
     None, ("Niemawun ucosipof sec telel titoy su pogeh uwih! Munowu adonieq\n"
            "tebeli razet keqad iteg lih. Eceh renod ne ielirica fa nes da\n"
-           "uhome! Na tacunel hili yeri rocesiev asutef tilapec li ibu! Yar"
-           "fo te tuneruy osone rano hiyus ale covoses ememo! Ser balon"
+           "uhome! Na tacunel hili yeri rocesiev asutef tilapec li ibu! Yar\n"
+           "fo te tuneruy osone rano hiyus ale covoses ememo! Ser balon\n"
            "domolof cenal tile neta rog epidierad.")])
 
 

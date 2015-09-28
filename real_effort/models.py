@@ -38,7 +38,7 @@ class Constants(otree.constants.BaseConstants):
     transcription_error_positive = "This transcription appears to contain too many errors."
 
     reference_texts = [
-        (idx, data[0] or dtol, data[1], txt2png(data[1]))
+        (idx+1, data[0] or dtol, data[1], txt2png.render(data[1]))
         for idx, data in enumerate(training_texts.TEXTS)]
 
 
@@ -67,13 +67,12 @@ class Player(otree.models.BasePlayer):
     subsession = models.ForeignKey(Subsession)
     # </built-in>
 
-    for idx, text in reference_texts:
-        transcription_fieldname = "
-
-    transcription_1 = models.TextField(validators=[MaxLengthValidator(Constants.transcription_max_length)])
-    transcription_2 = models.TextField(validators=[MaxLengthValidator(Constants.transcription_max_length)])
-    distance_1 = models.PositiveIntegerField()
-    distance_2 = models.PositiveIntegerField()
+    for idx, tol, text, png in Constants.reference_texts:
+        Player = locals()
+        Player["training_{}".format(idx)] = models.TextField()
+        Player["training_distance_{}".format(idx)] = models.FloatField()
+        Player["training_intents_{}".format(idx)] = models.PositiveIntegerField()
 
     def set_payoff(self):
         self.payoff = 0
+

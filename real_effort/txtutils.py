@@ -26,4 +26,4 @@ def levenshtein(a, b):
 def text_is_close_enough(text_user, text_reference, max_error_rate):
     error_threshold = len(text_reference) * max_error_rate
     distance = levenshtein(text_user, text_reference)
-    return distance <= error_threshold
+    return distance <= error_threshold, distance

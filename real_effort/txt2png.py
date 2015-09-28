@@ -17,9 +17,9 @@ def trim(im):
 
 def add_margin(im):
     width, height = im.size
-    nwidth, nheight = map(lambda v: int(round(v * 1.1)), (width, height))
+    nwidth, nheight = int(round(width * 1.1)), int(round(height * 1.5))
 
-    new_im = Image.new("RGB", (nwidth, nheight), (255, 255, 255))
+    new_im = Image.new("RGB", (nwidth, nheight), (232, 232, 232))
     new_im.paste(im, ((nwidth - width)/2, (nheight - height)/2))
 
     return new_im
@@ -32,7 +32,7 @@ def render(txt, fontsize=20):
     font = ImageFont.truetype("arial.ttf", fontsize)
     width, height = font.getsize(txt)
 
-    image = Image.new("RGBA", (width, height*lines), (255, 255, 255))
+    image = Image.new("RGBA", (width, height*lines), (232,232,232))
     draw = ImageDraw.Draw(image)
 
     draw.text((0, 0), txt, (0, 0, 0), font=font)
@@ -42,4 +42,4 @@ def render(txt, fontsize=20):
 
     buff = six.StringIO()
     image.save(buff, 'png')
-    return buff.getvalue()
+    return buff.getvalue().encode("base64")

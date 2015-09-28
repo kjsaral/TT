@@ -131,6 +131,7 @@ SESSION_CONFIGS = [
         'display_name': "Real Effort",
         'num_demo_participants': 1,
         'app_sequence': ['real_effort'],
+        'player_type': 1
     },
 ]
 

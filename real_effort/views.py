@@ -1,80 +1,92 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
-from . import models
-from ._builtin import Page, WaitPage
+
 from otree.common import Currency as c, currency_range, safe_json
-from .models import Constants, levenshtein, text_is_close_enough
 from django.conf import settings
 
+from ._builtin import Page, WaitPage
+
+from . import models
+from .models import Constants
+from .txtutils import text_is_close_enough
+
+
+# =============================================================================
+# FOR ALL TEMPLATES
+# =============================================================================
 
 def vars_for_all_templates(self):
-
-    return {'paragraph_count': Constants.paragraph_count}
-
-
-class Transcription1(Page):
-
-    template_name = 'real_effort/Transcription.html'
-
-    form_model = models.Player
-    form_fields = ['transcription_1']
-
-    def vars_for_template(self):
-        return {
-                'number': 1,
-                'magic_link': settings.DEBUG and Constants.show_transcription_1,
-                'transcription': Constants.reference_texts[0],
-                'debug': settings.DEBUG,
-                'error_rate_percent': int(100 * Constants.error_rate_transcription_1)
-
-        }
-
-    def transcription_1_error_message(self, text_user):
-        if not text_is_close_enough(text_user, Constants.reference_texts[0], Constants.error_rate_transcription_1):
-            if Constants.error_rate_transcription_1 == 0.0:
-                return Constants.transcription_error_0
-            else:
-                return Constants.transcription_error_positive
-        else:
-            self.distance_1 = levenshtein(Constants.reference_texts[0], text_user)
+    return {}
 
 
-class Transcription2(Page):
+# =============================================================================
+# BASE CLASS FOR TRAINING
+# =============================================================================
+
+class TranscriptionTrainingBase(Page):
 
     template_name = 'real_effort/Transcription.html'
 
     form_model = models.Player
-    form_fields = ['transcription_2']
+    form_fields = []
+    text_data = None
 
     def vars_for_template(self):
-        return {'number': 2,
-                'magic_link': settings.DEBUG and Constants.show_transcription_2,
-                'transcription': Constants.reference_texts[1],
-                'error_rate_percent': int(100 * Constants.error_rate_transcription_2)}
-
-    def transcription_2_error_message(self, text_user):
-        if not text_is_close_enough(text_user, Constants.reference_texts[1], Constants.error_rate_transcription_2):
-            if Constants.error_rate_transcription_2 == 0.0:
-                return Constants.transcription_error_0
-            else:
-                return Constants.transcription_error_positive
-        else:
-            self.distance_2 = levenshtein(Constants.reference_texts[1], text_user)
-
-
-class Summary(Page):
-
-    def vars_for_template(self):
-        self.player.set_payoff()
+        idx, tol, text, png, field_name = self.text_data
         return {
-                #'distance_1' : self.player.distance_1,
-                'transcription_entered_1' : len(self.player.transcription_1),
-                'transcription_length_1' : len(Constants.reference_texts[0]),
-                #'distance_2' : self.player.distance_2,
-                'transcription_entered_2' : len(self.player.transcription_2),
-                'transcription_length_2' : len(Constants.reference_texts[1]),
+            "png": png,
+            "transcription_title": "Training #{}".format(idx),
         }
 
-page_sequence = [Transcription1,
-            Transcription2,
-            Summary]
+    def error_message(self, values):
+        idx, tol, text, png, field_name = self.text_data
+        text_user = values[field_name]
+        is_close_enough, distance = text_is_close_enough(text_user, text, tol)
+
+        intents_fieldname = "training_intents_{}".format(idx)
+        intents = (getattr(self.player, intents_fieldname) or 0) + 1
+        setattr(self.player, intents_fieldname, intents)
+
+        if is_close_enough:
+            distance_fieldname = "training_distance_{}".format(idx)
+            setattr(self.player, distance_fieldname, distance)
+        elif tol == 0.0:
+            return Constants.transcription_error_0
+        else:
+            return Constants.transcription_error_positive
+
+    def is_displayed(self):
+        return self.subsession.round_number == 1
+
+
+# =============================================================================
+# DINAMIC CREATION OF TRAINING PAGES
+# =============================================================================
+
+test_pages = []
+
+for idx, tol, text, png in Constants.reference_texts:
+    env = locals()
+
+    class_name = "Training{}".format(idx)
+
+    fieldname = "training_{}".format(idx)
+    attrs = {
+        "form_fields": [fieldname],
+        "text_data": (idx, tol, text, png, fieldname)}
+
+    cls = type(class_name, (TranscriptionTrainingBase,), attrs)
+    env[class_name] = cls
+    test_pages.append(cls)
+
+
+# =============================================================================
+# REAL PAGES ITSELF
+# =============================================================================
+
+
+# =============================================================================
+# PAGE SECUENCE
+# =============================================================================
+
+page_sequence = test_pages + []
