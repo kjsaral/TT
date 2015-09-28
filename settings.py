@@ -8,6 +8,8 @@ import otree.settings
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+FONTS_DIR = os.path.join(BASE_DIR, "_fonts")
+
 # OTREE_PRODUCTION just controls whether Django runs in
 # DEBUG mode. If OTREE_PRODUCTION==1, then DEBUG=False
 if os.environ.get('OTREE_PRODUCTION') not in {None, '', '0'}:

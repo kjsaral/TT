@@ -1,9 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
+
+try:
+    from django.conf import settings
+    ARIAL_TTF = os.path.join(settings.FONTS_DIR, "arial.ttf")
+except ImportError:
+    ARIAL_TTF = "arial.ttf"
+
 from PIL import Image, ImageDraw, ImageFont, ImageChops
 
 import six
+
+ARIAL = settings.FONTS_DIR
 
 
 def trim(im):
@@ -29,7 +39,7 @@ def render(txt, fontsize=20):
     txt = txt.strip()
     lines = len(txt.splitlines()) or 1
 
-    font = ImageFont.truetype("arial.ttf", fontsize)
+    font = ImageFont.truetype(ARIAL_TTF, fontsize)
     width, height = font.getsize(txt)
 
     image = Image.new("RGBA", (width, height*lines), (232,232,232))
