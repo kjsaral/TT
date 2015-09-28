@@ -129,11 +129,32 @@ SESSION_CONFIG_DEFAULTS = {
 
 SESSION_CONFIGS = [
     {
-        'name': 'real_effort',
-        'display_name': "Real Effort",
-        'num_demo_participants': 1,
+        'name': 'real_effort_type_1',
+        'display_name': "Real Effort - Player Type 1",
+        'num_demo_participants': 65,
         'app_sequence': ['real_effort'],
         'player_type': 1
+    },
+    {
+        'name': 'real_effort_type_2',
+        'display_name': "Real Effort - Player Type 2",
+        'num_demo_participants': 65,
+        'app_sequence': ['real_effort'],
+        'player_type': 2
+    },
+    {
+        'name': 'real_effort_type_3',
+        'display_name': "Real Effort - Player Type 3",
+        'num_demo_participants': 20,
+        'app_sequence': ['real_effort'],
+        'player_type': 3
+    },
+    {
+        'name': 'real_effort_type_4',
+        'display_name': "Real Effort - Player Type 4",
+        'num_demo_participants': 20,
+        'app_sequence': ['real_effort'],
+        'player_type': 4
     },
 ]
 
