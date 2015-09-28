@@ -11,7 +11,7 @@ import random
 from django.core.validators import MaxLengthValidator
 # </standard imports>
 
-from real_effort import training_texts, txt2png
+from real_effort import training_texts, txt2png, txtutils
 
 doc = """
 This is a task that requires real effort from participants. Subjects are shown
@@ -32,6 +32,9 @@ class Constants(otree.constants.BaseConstants):
     player_types = [1, 2, 3, 4]
     pt1, pt2, pt3, pt4 = player_types
 
+    # number, chars and spaces
+    random_string_conf = 5, 15, 5
+
     # error in case participant is not allowed to make any errors
     transcription_error_0 = "The transcription should be exactly the same as on the image."
     # error in case participant is allowed to make some errors, but not too many
@@ -45,12 +48,11 @@ class Constants(otree.constants.BaseConstants):
 
 class Subsession(otree.models.BaseSubsession):
 
-    player_type = models.IntegerField(min=min(Constants.player_types),
-                                      max=max(Constants.player_types))
-
     def before_session_starts(self):
-        if self.round_number == 1:
-            self.player_type = self.session.config['player_type']
+        re_type = self.session.config['player_type']
+        for player in self.get_players():
+            player.player_re_type = re_type
+            player.text = txtutils.random_string(*Constants.random_string_conf)
 
 
 class Group(otree.models.BaseGroup):
@@ -67,6 +69,13 @@ class Player(otree.models.BasePlayer):
     subsession = models.ForeignKey(Subsession)
     # </built-in>
 
+    player_re_type = models.IntegerField(min=min(Constants.player_types),
+                                         max=max(Constants.player_types))
+
+    text = models.TextField()
+    text_distance = models.FloatField()
+    text_intents = models.PositiveIntegerField()
+
     for idx, tol, text, png in Constants.reference_texts:
         Player = locals()
         Player["training_{}".format(idx)] = models.TextField()
@@ -75,4 +84,10 @@ class Player(otree.models.BasePlayer):
 
     def set_payoff(self):
         self.payoff = 0
+
+    @property
+    def png(self):
+        if not hasattr(self, "__png"):
+            self.__png = txt2png.render(self.text)
+        return self.__png
 

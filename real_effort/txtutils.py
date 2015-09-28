@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import string
+import random
+
+import six
 
 def levenshtein(a, b):
     """Calculates the Levenshtein distance between a and b."""
@@ -27,3 +31,19 @@ def text_is_close_enough(text_user, text_reference, max_error_rate):
     error_threshold = len(text_reference) * max_error_rate
     distance = levenshtein(text_user, text_reference)
     return distance <= error_threshold, distance
+
+
+def random_string(numbers, letters, spaces):
+    numbers = [random.choice(string.digits) for _ in six.moves.range(numbers)]
+    letters = [random.choice(string.ascii_uppercase) for _ in six.moves.range(letters)]
+    spaces = [" "] * spaces
+    rstring = numbers + letters + spaces
+    random.shuffle(rstring)
+    return "".join(rstring).strip()
+
+
+
+
+
+
+
