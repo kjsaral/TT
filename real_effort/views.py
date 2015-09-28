@@ -23,7 +23,7 @@ def vars_for_all_templates(self):
 # BASE CLASS FOR TRAINING
 # =============================================================================
 
-class TranscriptionTrainingBase(Page):
+class TrainingBase(Page):
 
     template_name = 'real_effort/Transcription.html'
 
@@ -75,7 +75,7 @@ for idx, tol, text, png in Constants.reference_texts:
         "form_fields": [fieldname],
         "text_data": (idx, tol, text, png, fieldname)}
 
-    cls = type(class_name, (TranscriptionTrainingBase,), attrs)
+    cls = type(class_name, (TrainingBase,), attrs)
     env[class_name] = cls
     test_pages.append(cls)
 
@@ -84,9 +84,35 @@ for idx, tol, text, png in Constants.reference_texts:
 # REAL PAGES ITSELF
 # =============================================================================
 
+class Transcription(Page):
+
+    template_name = 'real_effort/Transcription.html'
+
+    form_model = models.Player
+    form_fields = ["transcripted_text"]
+
+    def vars_for_template(self):
+        title = "Transcription #{}".format(self.subsession.round_number),
+        return {
+            "png": self.player.png,
+            "transcription_title": title,
+        }
+
+    def transcripted_text_error_message(self, value):
+        tol = 0.0
+        is_close_enough, distance = text_is_close_enough(
+            value, player.transcription_text, tol)
+        player.text_intents = (player.text_intents or 0) + 1
+        if is_close_enough:
+            player.text_distance = distance
+        elif tol == 0.0:
+            return Constants.transcription_error_0
+        else:
+            return Constants.transcription_error_positive
+
 
 # =============================================================================
 # PAGE SECUENCE
 # =============================================================================
 
-page_sequence = test_pages + []
+page_sequence = test_pages + [Transcription]

@@ -26,6 +26,3 @@ TEXTS.append([
            "aliquyam erat, diamboluptua. At vero eos et accusam et justo duo\n"
            "dolores et")])
 
-
-
-

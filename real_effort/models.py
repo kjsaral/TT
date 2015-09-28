@@ -52,7 +52,8 @@ class Subsession(otree.models.BaseSubsession):
         re_type = self.session.config['player_type']
         for player in self.get_players():
             player.player_re_type = re_type
-            player.text = txtutils.random_string(*Constants.random_string_conf)
+            player.transcription_text = txtutils.random_string(
+                *Constants.random_string_conf)
 
 
 class Group(otree.models.BaseGroup):
@@ -72,7 +73,8 @@ class Player(otree.models.BasePlayer):
     player_re_type = models.IntegerField(min=min(Constants.player_types),
                                          max=max(Constants.player_types))
 
-    text = models.TextField()
+    transcription_text = models.TextField()
+    transcripted_text = models.TextField()
     text_distance = models.FloatField()
     text_intents = models.PositiveIntegerField()
 
@@ -88,6 +90,6 @@ class Player(otree.models.BasePlayer):
     @property
     def png(self):
         if not hasattr(self, "__png"):
-            self.__png = txt2png.render(self.text)
+            self.__png = txt2png.render(self.transcription_text)
         return self.__png
 
