@@ -160,3 +160,5 @@ SESSION_CONFIGS = [
 
 
 otree.settings.augment_settings(globals())
+
+import ipdb; ipdb.set_trace()

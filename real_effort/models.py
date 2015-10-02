@@ -11,7 +11,11 @@ import random
 from django.core.validators import MaxLengthValidator
 # </standard imports>
 
-from real_effort import training_texts, txt2png, txtutils
+import collections
+
+import six
+
+from real_effort import txt2png, txtutils
 
 doc = """
 This is a task that requires real effort from participants. Subjects are shown
@@ -21,11 +25,14 @@ measured by the
 <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance</a>.
 """
 
+ReferenceText = collections.namedtuple("ReferenceText", ["idx", "text", "png"])
+
 class Constants(otree.constants.BaseConstants):
 
     name_in_url = 'real_effort'
     players_per_group = None
-    num_rounds = 1
+    saral_rounds = 3
+    num_rounds = 500 * 3
 
     dtol = 0.0
 
@@ -34,15 +41,19 @@ class Constants(otree.constants.BaseConstants):
 
     # number, chars and spaces
     random_string_conf = 5, 15, 5
+    number_of_trainings = 10
 
     # error in case participant is not allowed to make any errors
     transcription_error_0 = "The transcription should be exactly the same as on the image."
     # error in case participant is allowed to make some errors, but not too many
     transcription_error_positive = "This transcription appears to contain too many errors."
 
-    reference_texts = [
-        (idx+1, data[0] or dtol, data[1], txt2png.render(data[1]))
-        for idx, data in enumerate(training_texts.TEXTS)]
+    reference_texts = []
+    for idx in six.moves.range(number_of_trainings):
+        text = txtutils.random_string(*random_string_conf)
+        png = txt2png.render(text)
+        rtext = ReferenceText(idx=idx+1, text=text, png=png)
+        reference_texts.append(rtext)
 
 
 
@@ -78,11 +89,11 @@ class Player(otree.models.BasePlayer):
     text_distance = models.FloatField()
     text_intents = models.PositiveIntegerField()
 
-    for idx, tol, text, png in Constants.reference_texts:
-        Player = locals()
-        Player["training_{}".format(idx)] = models.TextField()
-        Player["training_distance_{}".format(idx)] = models.FloatField()
-        Player["training_intents_{}".format(idx)] = models.PositiveIntegerField()
+    for rtext in Constants.reference_texts:
+        env = locals()
+        env["training_{}".format(rtext.idx)] = models.TextField()
+        env["training_distance_{}".format(rtext.idx)] = models.FloatField()
+        env["training_intents_{}".format(rtext.idx)] = models.PositiveIntegerField()
 
     def set_payoff(self):
         self.payoff = 0

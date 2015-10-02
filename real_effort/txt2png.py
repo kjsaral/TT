@@ -27,7 +27,7 @@ def trim(im):
 
 def add_margin(im):
     width, height = im.size
-    nwidth, nheight = int(round(width * 1.1)), int(round(height * 1.5))
+    nwidth, nheight = width + 1, height + 1
 
     new_im = Image.new("RGB", (nwidth, nheight), (232, 232, 232))
     new_im.paste(im, ((nwidth - width)/2, (nheight - height)/2))

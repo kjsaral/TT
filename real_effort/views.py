@@ -32,23 +32,24 @@ class TrainingBase(Page):
     text_data = None
 
     def vars_for_template(self):
-        idx, tol, text, png, field_name = self.text_data
         return {
-            "png": png,
-            "transcription_title": "Training #{}".format(idx),
+            "png": self.text_data.png,
+            "transcription_title": "Training #{}".format(self.text_data.idx),
         }
 
     def error_message(self, values):
-        idx, tol, text, png, field_name = self.text_data
-        text_user = values[field_name]
-        is_close_enough, distance = text_is_close_enough(text_user, text, tol)
+        field_name = self.form_fields[0]
 
-        intents_fieldname = "training_intents_{}".format(idx)
+        text_user = values[field_name]
+        is_close_enough, distance = text_is_close_enough(
+            text_user, self.text_data.text, Constants.dtol)
+
+        intents_fieldname = "training_intents_{}".format(self.text_data.idx)
         intents = (getattr(self.player, intents_fieldname) or 0) + 1
         setattr(self.player, intents_fieldname, intents)
 
         if is_close_enough:
-            distance_fieldname = "training_distance_{}".format(idx)
+            distance_fieldname = "training_distance_{}".format(self.text_data.idx)
             setattr(self.player, distance_fieldname, distance)
         elif tol == 0.0:
             return Constants.transcription_error_0
@@ -65,15 +66,15 @@ class TrainingBase(Page):
 
 test_pages = []
 
-for idx, tol, text, png in Constants.reference_texts:
+for rtext in Constants.reference_texts:
     env = locals()
 
-    class_name = "Training{}".format(idx)
+    class_name = "Training{}".format(rtext.idx)
 
-    fieldname = "training_{}".format(idx)
+    fieldname = "training_{}".format(rtext.idx)
     attrs = {
         "form_fields": [fieldname],
-        "text_data": (idx, tol, text, png, fieldname)}
+        "text_data": rtext}
 
     cls = type(class_name, (TrainingBase,), attrs)
     env[class_name] = cls
