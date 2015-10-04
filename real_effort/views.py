@@ -85,6 +85,9 @@ for rtext in Constants.reference_texts:
 # REAL PAGES ITSELF
 # =============================================================================
 
+class Introduction(Page):
+    pass
+
 class Transcription(Page):
 
     template_name = 'real_effort/Transcription.html'
@@ -115,4 +118,4 @@ class Transcription(Page):
 # PAGE SECUENCE
 # =============================================================================
 
-page_sequence = test_pages + [Transcription]
+page_sequence = [Introduction] + test_pages + [BeforeTranscriptionOne]

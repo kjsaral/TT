@@ -35,7 +35,7 @@ def add_margin(im):
     return new_im
 
 
-def render(txt, fontsize=20):
+def renderb64(txt, fontsize=20):
     txt = txt.strip()
     lines = len(txt.splitlines()) or 1
 
@@ -52,4 +52,6 @@ def render(txt, fontsize=20):
 
     buff = six.StringIO()
     image.save(buff, 'png')
-    return buff.getvalue().encode("base64")
+    if encoding:
+        return buff.getvalue().encode(encoding)
+    return buff.get_value()

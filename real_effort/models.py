@@ -15,7 +15,7 @@ import collections
 
 import six
 
-from real_effort import txt2png, txtutils
+from ._libs import txt2png, txtutils
 
 doc = """
 This is a task that requires real effort from participants. Subjects are shown
@@ -36,11 +36,11 @@ class Constants(otree.constants.BaseConstants):
 
     dtol = 0.0
 
+    png_encoding = "base64"
     player_types = [1, 2, 3, 4]
     pt1, pt2, pt3, pt4 = player_types
 
-    # number, chars and spaces
-    random_string_conf = 5, 15, 5
+    random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
     number_of_trainings = 10
 
     # error in case participant is not allowed to make any errors
@@ -50,8 +50,8 @@ class Constants(otree.constants.BaseConstants):
 
     reference_texts = []
     for idx in six.moves.range(number_of_trainings):
-        text = txtutils.random_string(*random_string_conf)
-        png = txt2png.render(text)
+        text = txtutils.random_string(**random_string_conf)
+        png = txt2png.render(text, encoding=png_encoding)
         rtext = ReferenceText(idx=idx+1, text=text, png=png)
         reference_texts.append(rtext)
 
@@ -64,7 +64,7 @@ class Subsession(otree.models.BaseSubsession):
         for player in self.get_players():
             player.player_re_type = re_type
             player.transcription_text = txtutils.random_string(
-                *Constants.random_string_conf)
+                **Constants.random_string_conf)
 
 
 class Group(otree.models.BaseGroup):
@@ -101,6 +101,7 @@ class Player(otree.models.BasePlayer):
     @property
     def png(self):
         if not hasattr(self, "__png"):
-            self.__png = txt2png.render(self.transcription_text)
+            self.__png = txt2png.render(
+                self.transcription_text, encoding=constants.png_encoding)
         return self.__png
 

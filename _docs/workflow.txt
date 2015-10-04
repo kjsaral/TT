@@ -1,15 +1,15 @@
-- Introduction
+* Introduction
 
-- Training 1
-- Training 2
-- Training 3
-- Training 4
-- Training 5
-- Training 6
-- Training 7
-- Training 8
-- Training 9
-- Training 10
+* Training 1
+* Training 2
+* Training 3
+* Training 4
+* Training 5
+* Training 6
+* Training 7
+* Training 8
+* Training 9
+* Training 10
 
 - Before Round 1
 - Round 1 (solo for 5 minutes)
