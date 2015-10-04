@@ -97,19 +97,14 @@ class BeforeRound1(Page):
     pass
 
 
-class Transcription(Page):
-
-    template_name = 'real_effort/Transcription.html'
+class Round1(Page):
 
     form_model = models.Player
     form_fields = ["transcripted_text"]
 
     def vars_for_template(self):
-        title = "Transcription #{}".format(self.subsession.round_number),
         return {
-            "png": self.player.png,
-            "transcription_title": title,
-        }
+            "png": self.player.png}
 
     def transcripted_text_error_message(self, value):
         is_close_enough, distance = text_is_close_enough(

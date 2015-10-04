@@ -158,6 +158,7 @@ SESSION_CONFIGS = [
     },
 ]
 
+ROOT_URLCONF = 'real_effort.urls'
 
 otree.settings.augment_settings(globals())
 

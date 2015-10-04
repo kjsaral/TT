@@ -2,7 +2,7 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Transcription task {{transcription_title}}
+    Transcription task
 {% endblock %}
 
 {% block content %}
@@ -24,6 +24,9 @@
     </div>
 
     <span class="pull-right">
+        <p>
+            Account A pays {{Constants.a_payoff}} per correct answer
+        </p>
         <p>
             <input type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button">
         </p>

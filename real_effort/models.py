@@ -39,6 +39,8 @@ class Constants(otree.constants.BaseConstants):
     player_types = [1, 2, 3, 4]
     pt1, pt2, pt3, pt4 = player_types
 
+    a_payoff, b_payoff = c(.10), c(.23)
+
     random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
     number_of_trainings = 10
 
