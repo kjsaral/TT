@@ -1,0 +1,51 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Transcription task {{transcription_title}}
+{% endblock %}
+
+{% block content %}
+
+    <p>
+        Please transcribe (that is copy) the text below into the input field.
+        Be exact and make sure to get all characters and spaces correct.
+    </p>
+
+    <div>
+        <img src="data:image/png;base64,{{png}}"  style="margin:0 auto;"/>
+    </div>
+
+    <br>
+    <div id="formfields">
+        {% for field in form %}
+            {% formfield field  with label=""%}
+        {% endfor %}
+    </div>
+
+    <span class="pull-right">
+        <p>
+            <input id="submit-input" type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button">
+            <input id="skip-input" type="submit" value="Continue" class="btn btn-primary btn-large btn-success next-button">
+        </p>
+    </span>
+    <br>
+
+    <script>
+        $(document).ready(function(){
+            $("#submit-input").click(function(evt){
+                $("input#id_skip_training").val("False");
+            });
+
+            $("#skip-input").click(function(evt){
+                $("input#id_skip_training").val("True");
+                $("textarea#id_{{text_fieldname}}").val("Skipped");
+                $("textarea#id_{{text_fieldname}}").attr("readonly", "");
+            });
+        });
+    </script>
+
+
+
+
+{% endblock %}

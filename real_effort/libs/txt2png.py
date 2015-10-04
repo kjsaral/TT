@@ -35,7 +35,7 @@ def add_margin(im):
     return new_im
 
 
-def renderb64(txt, fontsize=20):
+def render(txt, fontsize=20, encoding=None):
     txt = txt.strip()
     lines = len(txt.splitlines()) or 1
 

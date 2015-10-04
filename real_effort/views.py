@@ -8,7 +8,7 @@ from ._builtin import Page, WaitPage
 
 from . import models
 from .models import Constants
-from .txtutils import text_is_close_enough
+from .libs.txtutils import text_is_close_enough
 
 
 # =============================================================================
@@ -25,7 +25,7 @@ def vars_for_all_templates(self):
 
 class TrainingBase(Page):
 
-    template_name = 'real_effort/Transcription.html'
+    template_name = 'real_effort/TranscriptionTraining.html'
 
     form_model = models.Player
     form_fields = []
@@ -35,10 +35,14 @@ class TrainingBase(Page):
         return {
             "png": self.text_data.png,
             "transcription_title": "Training #{}".format(self.text_data.idx),
-        }
+            "text_fieldname": self.form_fields[0]}
 
     def error_message(self, values):
-        field_name = self.form_fields[0]
+        field_name, skip_fieldname = self.form_fields
+
+        skip = values[skip_fieldname]
+        if skip:
+            return
 
         text_user = values[field_name]
         is_close_enough, distance = text_is_close_enough(
@@ -51,13 +55,13 @@ class TrainingBase(Page):
         if is_close_enough:
             distance_fieldname = "training_distance_{}".format(self.text_data.idx)
             setattr(self.player, distance_fieldname, distance)
-        elif tol == 0.0:
+        elif Constants.dtol == 0.0:
             return Constants.transcription_error_0
         else:
             return Constants.transcription_error_positive
 
     def is_displayed(self):
-        return self.subsession.round_number == 1
+        return self.subsession.round_number == 1 and not self.player.skip_training
 
 
 # =============================================================================
@@ -73,7 +77,7 @@ for rtext in Constants.reference_texts:
 
     fieldname = "training_{}".format(rtext.idx)
     attrs = {
-        "form_fields": [fieldname],
+        "form_fields": [fieldname, "skip_training"],
         "text_data": rtext}
 
     cls = type(class_name, (TrainingBase,), attrs)
@@ -87,6 +91,11 @@ for rtext in Constants.reference_texts:
 
 class Introduction(Page):
     pass
+
+
+class BeforeRound1(Page):
+    pass
+
 
 class Transcription(Page):
 
@@ -118,4 +127,7 @@ class Transcription(Page):
 # PAGE SECUENCE
 # =============================================================================
 
-page_sequence = [Introduction] + test_pages + [BeforeTranscriptionOne]
+page_sequence = (
+    [Introduction] + test_pages +
+    [BeforeRound1]
+)

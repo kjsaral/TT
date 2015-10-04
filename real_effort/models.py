@@ -15,7 +15,7 @@ import collections
 
 import six
 
-from ._libs import txt2png, txtutils
+from .libs import txt2png, txtutils
 
 doc = """
 This is a task that requires real effort from participants. Subjects are shown
@@ -31,8 +31,7 @@ class Constants(otree.constants.BaseConstants):
 
     name_in_url = 'real_effort'
     players_per_group = None
-    saral_rounds = 3
-    num_rounds = 500 * 3
+    num_rounds = 1
 
     dtol = 0.0
 
@@ -48,13 +47,21 @@ class Constants(otree.constants.BaseConstants):
     # error in case participant is allowed to make some errors, but not too many
     transcription_error_positive = "This transcription appears to contain too many errors."
 
-    reference_texts = []
-    for idx in six.moves.range(number_of_trainings):
-        text = txtutils.random_string(**random_string_conf)
-        png = txt2png.render(text, encoding=png_encoding)
-        rtext = ReferenceText(idx=idx+1, text=text, png=png)
-        reference_texts.append(rtext)
-
+    reference_only_texts = (
+        "12M1ZU J2KO ERP H O9DRYA",
+        "4C3 J H4 LF UJN8BBTX KPA9",
+        "4NOOIZ C8Z3WJ E5Q9Q OGH",
+        "75CNBQDHOQ 56KUBCI 9S Q",
+        "NG6L 7J4O2A9 NA MHNF SGW",
+        "9SP 9P IR7 MDI7OGWHBS2 V",
+        "JEA86MGZ S 5Z4COQ3 I BWJ",
+        "IJ LD JS QFP 3T3MYS0AY01",
+        "PXZ 6LH3OYCDJ A49Q I1UV",
+        "A15DS TV0TEC CRYCC8D 9Z")
+    reference_texts = [
+        ReferenceText(idx=idx+1, text=text,
+                      png=txt2png.render(text, encoding=png_encoding))
+        for idx, text in enumerate(reference_only_texts)]
 
 
 class Subsession(otree.models.BaseSubsession):
@@ -89,9 +96,10 @@ class Player(otree.models.BasePlayer):
     text_distance = models.FloatField()
     text_intents = models.PositiveIntegerField()
 
+    skip_training = models.BooleanField(default=False, widget=widgets.HiddenInput())
     for rtext in Constants.reference_texts:
         env = locals()
-        env["training_{}".format(rtext.idx)] = models.TextField()
+        env["training_{}".format(rtext.idx)] = models.TextField(null=True)
         env["training_distance_{}".format(rtext.idx)] = models.FloatField()
         env["training_intents_{}".format(rtext.idx)] = models.PositiveIntegerField()
 

@@ -27,10 +27,14 @@ def levenshtein(a, b):
     return current[n]
 
 
-def text_is_close_enough(text_user, text_reference, max_error_rate):
-    error_threshold = len(text_reference) * max_error_rate
-    distance = levenshtein(text_user, text_reference)
-    return distance <= error_threshold, distance
+def text_is_close_enough(
+    text_user, text_reference, max_error_rate, ignore_case=True):
+        if ignore_case:
+            text_user = text_user.lower()
+            text_reference = text_reference.lower()
+        error_threshold = len(text_reference) * max_error_rate
+        distance = levenshtein(text_user, text_reference)
+        return distance <= error_threshold, distance
 
 
 def random_string(numbers, letters, spaces):
@@ -39,11 +43,4 @@ def random_string(numbers, letters, spaces):
     spaces = [" "] * spaces
     rstring = numbers + letters + spaces
     random.shuffle(rstring)
-    return "".join(rstring).strip()
-
-
-
-
-
-
-
+    return " ".join("".join(rstring).strip().split())
