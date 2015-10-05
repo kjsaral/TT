@@ -39,7 +39,7 @@ class Constants(otree.constants.BaseConstants):
     player_types = [1, 2, 3, 4]
     pt1, pt2, pt3, pt4 = player_types
 
-    a_payoff, b_payoff = c(.10), c(.23)
+    a_payoff, b_payoff = "0.10", "0.23"
 
     random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
     number_of_trainings = 10
@@ -48,6 +48,8 @@ class Constants(otree.constants.BaseConstants):
     transcription_error_0 = "The transcription should be exactly the same as on the image."
     # error in case participant is allowed to make some errors, but not too many
     transcription_error_positive = "This transcription appears to contain too many errors."
+
+    transcriptions_limit = 500
 
     reference_only_texts = (
         "12M1ZU J2KO ERP H O9DRYA",
@@ -72,8 +74,11 @@ class Subsession(otree.models.BaseSubsession):
         re_type = self.session.config['player_type']
         for player in self.get_players():
             player.player_re_type = re_type
-            player.transcription_text = txtutils.random_string(
-                **Constants.random_string_conf)
+            player.round_1_transcription_texts = [
+                txtutils.random_string(**Constants.random_string_conf)
+                for _ in six.moves.range(Constants.transcriptions_limit)]
+            player.round_1_intents = [0] * Constants.transcriptions_limit
+
 
 
 class Group(otree.models.BaseGroup):
@@ -93,25 +98,16 @@ class Player(otree.models.BasePlayer):
     player_re_type = models.IntegerField(min=min(Constants.player_types),
                                          max=max(Constants.player_types))
 
-    transcription_text = models.TextField()
-    transcripted_text = models.TextField()
-    text_distance = models.FloatField()
-    text_intents = models.PositiveIntegerField()
+    round_1_idx = models.PositiveIntegerField(default=0)
+    round_1_transcription_texts = models.JSONField()
+    round_1_intents = models.JSONField()
 
     skip_training = models.BooleanField(default=False, widget=widgets.HiddenInput())
     for rtext in Constants.reference_texts:
         env = locals()
         env["training_{}".format(rtext.idx)] = models.TextField(null=True)
-        env["training_distance_{}".format(rtext.idx)] = models.FloatField()
         env["training_intents_{}".format(rtext.idx)] = models.PositiveIntegerField()
 
     def set_payoff(self):
         self.payoff = 0
-
-    @property
-    def png(self):
-        if not hasattr(self, "__png"):
-            self.__png = txt2png.render(
-                self.transcription_text, encoding=constants.png_encoding)
-        return self.__png
 

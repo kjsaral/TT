@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 
+from django.http import JsonResponse
+from django.views.generic import View
+
 from otree.common import Currency as c, currency_range, safe_json
 from django.conf import settings
 
@@ -38,6 +41,7 @@ class TrainingBase(Page):
             "text_fieldname": self.form_fields[0]}
 
     def error_message(self, values):
+        import ipdb; ipdb.set_trace()
         field_name, skip_fieldname = self.form_fields
 
         skip = values[skip_fieldname]
@@ -53,8 +57,7 @@ class TrainingBase(Page):
         setattr(self.player, intents_fieldname, intents)
 
         if is_close_enough:
-            distance_fieldname = "training_distance_{}".format(self.text_data.idx)
-            setattr(self.player, distance_fieldname, distance)
+            pass
         elif Constants.dtol == 0.0:
             return Constants.transcription_error_0
         else:
@@ -100,22 +103,30 @@ class BeforeRound1(Page):
 class Round1(Page):
 
     form_model = models.Player
-    form_fields = ["transcripted_text"]
+    form_fields = []
 
-    def vars_for_template(self):
-        return {
-            "png": self.player.png}
+    #~ def vars_for_template(self):
+        #~ return {
+            #~ "png": self.player.png}
+#~
+    #~ def transcripted_text_error_message(self, value):
+        #~ is_close_enough, distance = text_is_close_enough(
+            #~ value, self.player.transcription_text, Constants.dtol)
+        #~ self.player.text_intents = (self.player.text_intents or 0) + 1
+        #~ if is_close_enough:
+            #~ self.player.text_distance = distance
+        #~ elif tol == 0.0:
+            #~ return Constants.transcription_error_0
+        #~ else:
+            #~ return Constants.transcription_error_positive
 
-    def transcripted_text_error_message(self, value):
-        is_close_enough, distance = text_is_close_enough(
-            value, self.player.transcription_text, Constants.dtol)
-        self.player.text_intents = (self.player.text_intents or 0) + 1
-        if is_close_enough:
-            self.player.text_distance = distance
-        elif tol == 0.0:
-            return Constants.transcription_error_0
-        else:
-            return Constants.transcription_error_positive
+
+class NewTranscriptionAjax(View):
+    http_method_names = ["get"]
+
+    def get(self, request):
+        password = request.POST["player"]
+        import ipdb; ipdb.set_trace()
 
 
 # =============================================================================
