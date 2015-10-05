@@ -143,9 +143,6 @@ class Round1(Page):
         if self.player.round_1_idx < Constants.transcriptions_limit:
             return "----"
 
-    def before_next_page(self):
-        self.player.set_round_1_a_payoff()
-
     def is_displayed(self):
         return self.player.round_1_time_left()
 
@@ -153,6 +150,8 @@ class Round1(Page):
 class ResultsRound1(Page):
 
     def vars_for_template(self):
+        if self.player.round_1_a_payoff is None:
+            self.player.set_round_1_a_payoff()
         return {
             "correct_answers": self.player.round_1_idx,
             "earnings": self.player.round_1_a_payoff
