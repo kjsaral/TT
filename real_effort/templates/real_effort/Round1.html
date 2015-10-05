@@ -35,8 +35,15 @@
 
     <script>
         $(document).ready(function(){
-
-
+            var intents = {{intents}};
+            if(intents == 0){
+                var $transcriptionArea = $("textarea#id_transcription");
+                var $errorContainer = $transcriptionArea.siblings("div.form-control-errors");
+                $("form#form").siblings("div.alert-danger").remove();
+                $transcriptionArea.parents("div.form-group").removeClass("has-error");
+                $transcriptionArea.val("");
+                $errorContainer.text("");
+            }
         });
     </script>
 

@@ -39,10 +39,9 @@ class Constants(otree.constants.BaseConstants):
     player_types = [1, 2, 3, 4]
     pt1, pt2, pt3, pt4 = player_types
 
-    a_payoff, b_payoff = "0.10", "0.23"
+    a_payoff, b_payoff = c("0.10"), c("0.23")
 
     random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
-    number_of_trainings = 10
 
     # error in case participant is not allowed to make any errors
     transcription_error_0 = "The transcription should be exactly the same as on the image."
@@ -66,6 +65,8 @@ class Constants(otree.constants.BaseConstants):
         ReferenceText(idx=idx+1, text=text,
                       png=txt2png.render(text, encoding=png_encoding))
         for idx, text in enumerate(reference_only_texts)]
+
+    continue_in_the_round = random.random()
 
 
 class Subsession(otree.models.BaseSubsession):
@@ -105,6 +106,8 @@ class Player(otree.models.BasePlayer):
     player_re_type = models.IntegerField(min=min(Constants.player_types),
                                          max=max(Constants.player_types))
 
+    transcription = models.TextField()
+
     round_1_idx = models.PositiveIntegerField(default=0)
     round_1_transcription_texts = models.JSONField()
     round_1_intents = models.JSONField()
@@ -129,23 +132,23 @@ class Player(otree.models.BasePlayer):
     def round_1_png(self, idx):
         if not hasattr(self, "__round_1_png"):
             self.__round_1_png = {}
-        if idx not in self._round_1_png:
-            text = round_1_transcription_texts[idx]
-            self.__round_1_png[idx] = txt2png.render(txt, encoding=Constants.png_encoding)
+        if idx not in self.__round_1_png:
+            text = self.round_1_transcription_texts[idx]
+            self.__round_1_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_1_png[idx]
 
     def round_2_png(self, idx):
         if not hasattr(self, "__round_2_png"):
             self.__round_2_png = {}
-        if idx not in self._round_2_png:
-            text = round_2_transcription_texts[idx]
-            self.__round_2_png[idx] = txt2png.render(txt, encoding=Constants.png_encoding)
+        if idx not in self.__round_2_png:
+            text = self.round_2_transcription_texts[idx]
+            self.__round_2_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_2_png[idx]
 
     def round_3_png(self, idx):
         if not hasattr(self, "__round_3_png"):
             self.__round_3_png = {}
-        if idx not in self._round_3_png:
-            text = round_3_transcription_texts[idx]
-            self.__round_3_png[idx] = txt2png.render(txt, encoding=Constants.png_encoding)
+        if idx not in self.__round_3_png:
+            text = self.round_3_transcription_texts[idx]
+            self.__round_3_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_3_png[idx]

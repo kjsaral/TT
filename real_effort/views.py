@@ -102,31 +102,36 @@ class BeforeRound1(Page):
 class Round1(Page):
 
     form_model = models.Player
-    form_fields = []
+    form_fields = ["transcription"]
 
     def vars_for_template(self):
         idx = self.player.round_1_idx
         return {
+            "idx": idx,
+            "intents": self.player.round_1_intents[idx],
+            "text": self.player.round_1_transcription_texts[idx],
             "png": self.player.round_1_png(idx)}
-#~
-    #~ def transcripted_text_error_message(self, value):
-        #~ is_close_enough, distance = text_is_close_enough(
-            #~ value, self.player.transcription_text, Constants.dtol)
-        #~ self.player.text_intents = (self.player.text_intents or 0) + 1
-        #~ if is_close_enough:
-            #~ self.player.text_distance = distance
-        #~ elif tol == 0.0:
-            #~ return Constants.transcription_error_0
-        #~ else:
-            #~ return Constants.transcription_error_positive
 
+    def transcription_error_message(self, value):
+        idx = self.player.round_1_idx
+        text_reference = self.player.round_1_transcription_texts[idx]
+        self.player.round_1_intents[idx] += 1
 
-class NewTranscriptionAjax(View):
-    http_method_names = ["get"]
+        is_close_enough, distance = text_is_close_enough(
+            value, text_reference, Constants.dtol)
 
-    def get(self, request):
-        password = request.POST["player"]
-        import ipdb; ipdb.set_trace()
+        if is_close_enough:
+            self.player.round_1_idx = idx + 1
+        elif Constants.dtol == 0.0:
+            return Constants.transcription_error_0
+        else:
+            return Constants.transcription_error_positive
+
+        if self.player.round_1_idx < Constants.transcriptions_limit:
+            return "----"
+
+    def before_next_page(self):
+        self.player.transcription = ""
 
 
 # =============================================================================
