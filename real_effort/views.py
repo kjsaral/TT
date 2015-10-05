@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 
+from django.utils import timezone
+
 from django.http import JsonResponse
 from django.views.generic import View
 
@@ -96,7 +98,13 @@ class Introduction(Page):
 
 
 class BeforeRound1(Page):
-    pass
+
+    def vars_for_template(self):
+        return {
+            "time_limit": int(Constants.round_1_seconds / 60)}
+
+    def before_next_page(self):
+        self.player.round_1_start_time = timezone.now()
 
 
 class Round1(Page):
@@ -108,11 +116,16 @@ class Round1(Page):
         idx = self.player.round_1_idx
         return {
             "idx": idx,
+            "correct_answers": idx,
+            "time_left": self.player.round_1_time_left(),
             "intents": self.player.round_1_intents[idx],
             "text": self.player.round_1_transcription_texts[idx],
             "png": self.player.round_1_png(idx)}
 
     def transcription_error_message(self, value):
+        if not self.player.round_1_time_left():
+            return
+
         idx = self.player.round_1_idx
         text_reference = self.player.round_1_transcription_texts[idx]
         self.player.round_1_intents[idx] += 1
@@ -131,7 +144,19 @@ class Round1(Page):
             return "----"
 
     def before_next_page(self):
-        self.player.transcription = ""
+        self.player.set_round_1_a_payoff()
+
+    def is_displayed(self):
+        return self.player.round_1_time_left()
+
+
+class ResultsRound1(Page):
+
+    def vars_for_template(self):
+        return {
+            "correct_answers": self.player.round_1_idx,
+            "earnings": self.player.round_1_a_payoff
+        }
 
 
 # =============================================================================
@@ -140,5 +165,5 @@ class Round1(Page):
 
 page_sequence = (
     [Introduction] + test_pages +
-    [BeforeRound1, Round1]
+    [BeforeRound1, Round1, ResultsRound1]
 )

@@ -7,6 +7,7 @@
 
 {% block content %}
 
+<div class="row">
     <p>
         Please transcribe (that is copy) the text below into the input field.
         Be exact and make sure to get all characters and spaces correct.
@@ -22,10 +23,12 @@
             {% formfield field  with label=""%}
         {% endfor %}
     </div>
+</div>
 
+<div class="row">
     <span class="pull-right">
         <p>
-            Account A pays <b>${{Constants.a_payoff}}</b> per correct answer
+            Account A pays <b>{{Constants.a_payoff}}</b> per correct answer
         </p>
         <p>
             <input id="submit-input" type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button">
@@ -33,7 +36,10 @@
         </p>
     </span>
     <br>
+</div>
+{% endblock %}
 
+{% block scripts %}
     <script>
         $(document).ready(function(){
             $("#submit-input").click(function(evt){
@@ -42,13 +48,9 @@
 
             $("#skip-input").click(function(evt){
                 $("input#id_skip_training").val("True");
-                $("textarea#id_{{text_fieldname}}").val("Skipped");
                 $("textarea#id_{{text_fieldname}}").attr("readonly", "");
+                $("textarea#id_{{text_fieldname}}").val("{{Constants.skip_text}}");
             });
         });
     </script>
-
-
-
-
 {% endblock %}

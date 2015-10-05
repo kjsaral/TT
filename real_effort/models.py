@@ -11,6 +11,8 @@ import random
 from django.core.validators import MaxLengthValidator
 # </standard imports>
 
+from django.utils import timezone
+
 import collections
 
 import six
@@ -35,6 +37,8 @@ class Constants(otree.constants.BaseConstants):
 
     dtol = 0.0
 
+    skip_text, timesup_text = "-* Skipped *-", "-* Times Up *-"
+
     png_encoding = "base64"
     player_types = [1, 2, 3, 4]
     pt1, pt2, pt3, pt4 = player_types
@@ -42,6 +46,9 @@ class Constants(otree.constants.BaseConstants):
     a_payoff, b_payoff = c("0.10"), c("0.23")
 
     random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
+
+    # 5, 20 and 20 minutes
+    round_1_seconds, round_2_seconds, round_3_seconds = 500, 1200, 1200
 
     # error in case participant is not allowed to make any errors
     transcription_error_0 = "The transcription should be exactly the same as on the image."
@@ -108,14 +115,18 @@ class Player(otree.models.BasePlayer):
 
     transcription = models.TextField()
 
+    round_1_start_time = models.DateTimeField()
     round_1_idx = models.PositiveIntegerField(default=0)
     round_1_transcription_texts = models.JSONField()
     round_1_intents = models.JSONField()
 
+    round_2_start_time = models.DateTimeField()
     round_2_idx = models.PositiveIntegerField(default=0)
     round_2_transcription_texts = models.JSONField()
     round_2_intents = models.JSONField()
+    round_1_a_payoff = models.CurrencyField()
 
+    round_3_start_time = models.DateTimeField()
     round_3_idx = models.PositiveIntegerField(default=0)
     round_3_transcription_texts = models.JSONField()
     round_3_intents = models.JSONField()
@@ -137,6 +148,15 @@ class Player(otree.models.BasePlayer):
             self.__round_1_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_1_png[idx]
 
+    def set_round_1_a_payoff(self):
+        self.round_1_a_payoff = Constants.a_payoff * self.round_1_idx
+
+    def round_1_time_left(self):
+        start = self.round_1_start_time
+        now = timezone.now()
+        time_left = Constants.round_1_seconds - (now - start).seconds
+        return time_left if time_left > 0 else 0
+
     def round_2_png(self, idx):
         if not hasattr(self, "__round_2_png"):
             self.__round_2_png = {}
@@ -145,6 +165,12 @@ class Player(otree.models.BasePlayer):
             self.__round_2_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_2_png[idx]
 
+    def round_2_time_left(self):
+        start = self.round_2_start_time
+        now = timezone.now()
+        time_left = Constants.round_2_seconds - (now - start).seconds
+        return time_left if time_left > 0 else 0
+
     def round_3_png(self, idx):
         if not hasattr(self, "__round_3_png"):
             self.__round_3_png = {}
@@ -152,3 +178,9 @@ class Player(otree.models.BasePlayer):
             text = self.round_3_transcription_texts[idx]
             self.__round_3_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_3_png[idx]
+
+    def round_3_time_left(self):
+        start = self.round_3_start_time
+        now = timezone.now()
+        time_left = Constants.round_3_seconds - (now - start).seconds
+        return time_left if time_left > 0 else 0

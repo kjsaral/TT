@@ -5,8 +5,24 @@
     Transcription task
 {% endblock %}
 
+{% block styles %}
+<link href="{% static 'real_effort/flipclock/flipclock.css' %}" rel="stylesheet">
+<style>
+    span.flip-clock-label{
+        display: none;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 
+<div class="row">
+    <div class="pull-right">
+        <div id="timer"></div>
+    </div>
+</div>
+
+<div class="row">
     <p>
         Please transcribe (that is copy) the text below into the input field.
         Be exact and make sure to get all characters and spaces correct.
@@ -22,29 +38,52 @@
             {% formfield field  with label=""%}
         {% endfor %}
     </div>
+    <p class="text-info">
+        Correct answers submited to account A: <b>{{correct_answers}}</b>
+    </p>
 
+</div>
+
+<div class="row">
     <span class="pull-right">
         <p>
-            Account A pays {{Constants.a_payoff}} per correct answer
+            Account A pays <b>{{Constants.a_payoff}}</b> per correct answer
         </p>
         <p>
             <input type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button">
         </p>
     </span>
     <br>
+</div>
 
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'real_effort/flipclock/flipclock.min.js' %}"></script>
     <script>
         $(document).ready(function(){
             var intents = {{intents}};
+            var $transcriptionArea = $("textarea#id_transcription");
             if(intents == 0){
-                var $transcriptionArea = $("textarea#id_transcription");
                 var $errorContainer = $transcriptionArea.siblings("div.form-control-errors");
                 $("form#form").siblings("div.alert-danger").remove();
                 $transcriptionArea.parents("div.form-group").removeClass("has-error");
                 $transcriptionArea.val("");
                 $errorContainer.text("");
             }
+
+            var clock = $('#timer').FlipClock({{time_left}}, {
+                countdown: true,
+                clockFace: 'MinuteCounter',
+                callbacks: {
+                    stop: function(){
+                        $transcriptionArea.attr("readonly", "");
+                        $transcriptionArea.val("{{Constants.timesup_text}}");
+                        $("form#form").submit();
+                    }
+                }
+            });
         });
     </script>
-
 {% endblock %}
