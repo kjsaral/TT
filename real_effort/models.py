@@ -74,11 +74,18 @@ class Subsession(otree.models.BaseSubsession):
         re_type = self.session.config['player_type']
         for player in self.get_players():
             player.player_re_type = re_type
-            player.round_1_transcription_texts = [
-                txtutils.random_string(**Constants.random_string_conf)
-                for _ in six.moves.range(Constants.transcriptions_limit)]
-            player.round_1_intents = [0] * Constants.transcriptions_limit
-
+            round_1_tt, round_2_tt, round_3_tt, intents = [], [], [], []
+            while len(intents) < Constants.transcriptions_limit:
+                round_1_tt.append(txtutils.random_string(**Constants.random_string_conf))
+                round_2_tt.append(txtutils.random_string(**Constants.random_string_conf))
+                round_3_tt.append(txtutils.random_string(**Constants.random_string_conf))
+                intents.append(0)
+            player.round_1_transcription_texts = round_1_tt
+            player.round_2_transcription_texts = round_2_tt
+            player.round_3_transcription_texts = round_3_tt
+            player.round_1_intents = list(intents)
+            player.round_2_intents = list(intents)
+            player.round_3_intents = list(intents)
 
 
 class Group(otree.models.BaseGroup):
@@ -102,6 +109,14 @@ class Player(otree.models.BasePlayer):
     round_1_transcription_texts = models.JSONField()
     round_1_intents = models.JSONField()
 
+    round_2_idx = models.PositiveIntegerField(default=0)
+    round_2_transcription_texts = models.JSONField()
+    round_2_intents = models.JSONField()
+
+    round_3_idx = models.PositiveIntegerField(default=0)
+    round_3_transcription_texts = models.JSONField()
+    round_3_intents = models.JSONField()
+
     skip_training = models.BooleanField(default=False, widget=widgets.HiddenInput())
     for rtext in Constants.reference_texts:
         env = locals()
@@ -111,3 +126,26 @@ class Player(otree.models.BasePlayer):
     def set_payoff(self):
         self.payoff = 0
 
+    def round_1_png(self, idx):
+        if not hasattr(self, "__round_1_png"):
+            self.__round_1_png = {}
+        if idx not in self._round_1_png:
+            text = round_1_transcription_texts[idx]
+            self.__round_1_png[idx] = txt2png.render(txt, encoding=Constants.png_encoding)
+        return self.__round_1_png[idx]
+
+    def round_2_png(self, idx):
+        if not hasattr(self, "__round_2_png"):
+            self.__round_2_png = {}
+        if idx not in self._round_2_png:
+            text = round_2_transcription_texts[idx]
+            self.__round_2_png[idx] = txt2png.render(txt, encoding=Constants.png_encoding)
+        return self.__round_2_png[idx]
+
+    def round_3_png(self, idx):
+        if not hasattr(self, "__round_3_png"):
+            self.__round_3_png = {}
+        if idx not in self._round_3_png:
+            text = round_3_transcription_texts[idx]
+            self.__round_3_png[idx] = txt2png.render(txt, encoding=Constants.png_encoding)
+        return self.__round_3_png[idx]

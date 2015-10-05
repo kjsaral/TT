@@ -41,7 +41,6 @@ class TrainingBase(Page):
             "text_fieldname": self.form_fields[0]}
 
     def error_message(self, values):
-        import ipdb; ipdb.set_trace()
         field_name, skip_fieldname = self.form_fields
 
         skip = values[skip_fieldname]
@@ -105,9 +104,10 @@ class Round1(Page):
     form_model = models.Player
     form_fields = []
 
-    #~ def vars_for_template(self):
-        #~ return {
-            #~ "png": self.player.png}
+    def vars_for_template(self):
+        idx = self.player.round_1_idx
+        return {
+            "png": self.player.round_1_png(idx)}
 #~
     #~ def transcripted_text_error_message(self, value):
         #~ is_close_enough, distance = text_is_close_enough(
@@ -135,5 +135,5 @@ class NewTranscriptionAjax(View):
 
 page_sequence = (
     [Introduction] + test_pages +
-    [BeforeRound1]
+    [BeforeRound1, Round1]
 )
