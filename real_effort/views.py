@@ -150,7 +150,7 @@ class Round1(Page):
 class ResultsRound1(Page):
 
     def vars_for_template(self):
-        if self.player.round_1_a_payoff is None:
+        if not self.player.round_1_a_payoff:
             self.player.set_round_1_a_payoff()
         return {
             "correct_answers": self.player.round_1_idx,
