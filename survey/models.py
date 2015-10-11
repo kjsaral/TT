@@ -73,7 +73,7 @@ class Player(otree.models.BasePlayer):
                         "to the team or less than when you were partnered "
                         "with two people working in a lab?"))
 
-    partners_in_a_location_of_their_choice_worked_harder_than_the_lab = models.BooleanField(
+    partners_in_location_their_choice_worked_harder_than_the_lab = models.BooleanField(
         widget=widgets.RadioSelect(),
         verbose_name = ("Do you believe your partners participation in a "
                         "location of their choice gave more to the group than "
