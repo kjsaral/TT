@@ -1,0 +1,80 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Questionaire
+{% endblock %}
+
+{% block content %}
+<style>
+    li.eth-li{
+        list-style-type: none;
+
+    }
+    label {
+        font-weight: lighter;
+    }
+    .control-label {
+        font-weight: bold;
+    }
+</style>
+    <p>
+        In this part of the study you will complete the attached survey.
+        You will earn {{constants.payoff}} for completing this survey. Your
+        answers here will <b>NOT</b> affect your overall payment of this
+        experiment.
+    </p>
+
+    <div id="questions">
+        {% for field in form %}
+            {% formfield field %}
+            {% if field.name == "ethnicity" %}
+                <ul>
+                    {% for eth in Constants.ethnicities %}
+                    <li class="eth-li">
+                        <label for="id_eth_{{forloop.counter}}">
+                            <input class="eth-chk" id="id_eth_{{forloop.counter}}" value="{{eth}}" type="checkbox">
+                            {{eth}}
+                        </label>
+                    </li>
+                    {% endfor %}
+                    <li class="eth-li">
+                        <label for="id_eth-other">
+                            Other <small>(please specify)</small>
+                            <input id="id_eth-other" value="" type="text">
+                        </label>
+                    </li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <span class="pull-right">
+        {% next_button %}
+    </span>
+    <br>
+
+    <script>
+        $(document).ready(function(){
+            function updateEth(){
+                var value = $("input#id_eth-other").val() + "||";
+                $("input.eth-chk:checked").each(function(idx, elem){
+                   value += $(elem).val() + "||";
+                });
+                if(!!value)
+                    value = value.substring(0, value.length - 2);
+                $("#id_ethnicity").val(value);
+            }
+
+            $("input.eth-chk").change(function(){
+                updateEth();
+            });
+
+            $("input#id_eth-other").keyup(function(){
+                updateEth();
+            });
+        });
+    </script>
+
+
+{% endblock %}

@@ -184,6 +184,12 @@ SESSION_CONFIGS = [
         'app_sequence': ['real_effort'],
         'player_type': 8
     },
+    {
+        'name': 'survey',
+        'display_name': "Survey",
+        'num_demo_participants': 1,
+        'app_sequence': ['survey']
+    },
 ]
 
 otree.settings.augment_settings(globals())
