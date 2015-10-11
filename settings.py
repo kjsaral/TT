@@ -132,56 +132,56 @@ SESSION_CONFIGS = [
         'name': 'real_effort_type_1',
         'display_name': "Real Effort - Player Type 1",
         'num_demo_participants': 65,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 1
     },
     {
         'name': 'real_effort_type_2',
         'display_name': "Real Effort - Player Type 2",
         'num_demo_participants': 65,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 2
     },
     {
         'name': 'real_effort_type_3',
         'display_name': "Real Effort - Player Type 3",
         'num_demo_participants': 20,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 3
     },
     {
         'name': 'real_effort_type_4',
         'display_name': "Real Effort - Player Type 4",
         'num_demo_participants': 20,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 4
     },
     {
         'name': 'real_effort_type_5',
         'display_name': "Real Effort - Player Type 5",
         'num_demo_participants': 20,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 5
     },
     {
         'name': 'real_effort_type_6',
         'display_name': "Real Effort - Player Type 6",
         'num_demo_participants': 20,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 6
     },
     {
         'name': 'real_effort_type_7',
         'display_name': "Real Effort - Player Type 7",
         'num_demo_participants': 20,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 7
     },
     {
         'name': 'real_effort_type_8',
         'display_name': "Real Effort - Player Type 8",
         'num_demo_participants': 20,
-        'app_sequence': ['real_effort'],
+        'app_sequence': ['real_effort', 'survey'],
         'player_type': 8
     },
     {
