@@ -1,0 +1,121 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Consent
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <ul>
+        <li>
+            <b>Title of Research:</b> Economics Experiment
+        </li>
+        <li>
+            <b>Researchers:</b> This research is being done by Glenn Dutcher, PhD, economics professor at Ohio
+            University and Krista Jabs Saral, PhD, economics professor at Webster University.
+        </li>
+    </ul>
+    <p>
+        You are being asked to participate in research.  For you to be able to decide whether you want to
+        participate in this project, you should understand what the project is about, as well as the possible
+        risks and benefits in order to make an informed decision.  This process is known as informed
+        consent.  This form describes the purpose, procedures, possible benefits, and risks.  It also
+        explains how your personal information will be used and protected.  Once you have read this
+        form and your questions about the study are answered, you will be asked to click “YES.”  This
+        will allow your participation in this study.
+    </p>
+
+    <h3>Explanation of Study:</h3>
+    <p>
+        You are being invited to participate voluntarily in this research experiment to study the
+        economics of decision­making. This experiment will last up to 2 hours.
+    </p>
+    <p class="text-warning">
+        You should not participate in this study if you are under the age of 18.
+    </p>
+
+    <h4>Risks and Discomforts:</h4>
+    <p>
+        The risks associated with participating in this study are similar to the risks of everyday life.
+        There are no known health risks or health benefits for this experiment beyond those from any
+        other typical activity in an Ohio University classroom or computer lab. We do not employ
+        deception. If we make a representation to you about the experiment, to the best of our knowledge
+        it is true.
+    </p>
+
+    <h4>Benefits:</h4>
+    <P>
+        This study seeks to understand how human actors behave in economic environments of interest
+        to advance science and society. Through your participation, you will gain an understanding of
+        how economic experiments are conducted and you are encouraged to contact me with any
+        questions about the final write­up of the results.
+    </P>
+
+    <h3>Confidentiality and Records</h3>
+    <p>
+        The confidentiality of any personal information will be protected to the extent allowed by law.
+        To the extent allowed by law, our rule is that only the researcher(s) and any research assistants
+        conducting this experiment may know what your earnings are (subject to tax reporting
+        requirements below) and only researchers affiliated with the project may have access to the data
+        with your name. Your name will not be reported with any results related to this research. To
+        provide protection, you will be assigned a subject number and this identifier will be used instead
+        of your name in the data.
+    </p>
+    <p>
+        Additionally, while every effort will be made to keep your study­related information
+        confidential, there may be circumstances where this information must be shared with
+    </p>
+    <ul>
+        <li>Federal agencies, for example the Office of Human Research Protections, whose
+            responsibility is to protect human subjects in research;</li>
+        <li>Representatives of Ohio University (OU), including the Institutional Review Board, a
+            committee that oversees the research at OU;</li>
+    </ul>
+
+    <h3>Compensation</h3>
+
+    <p> In addition to the {{Constants.participation_fee}} for showing up on time and participating,
+        you will have the opportunity to
+        earn additional compensation, which will be based upon your decisions, the decisions of others
+        who are in the experiment, and the rules within which those decisions are made. Any
+        compensation you receive as a result of your participation in this experiment may be reported for
+        taxation purposes to appropriate federal and state agencies, but the results of the study will
+        remain confidential and will not be forwarded to tax authorities. You are free to withdraw from
+        the experiment without additional compensation and without incurring the ill will of the
+        experimenters at any time. If you do so, you may keep the show­up fee.</p>
+
+    <h3>Contact Information</h3>
+
+    <p>If you have any questions regarding this study, please contact the investigator Glenn Dutcher
+        at <a href="mailto:dutcherg@ohio.edu">dutcherg@ohio.edu</a> or 740­597­1261.</p>
+
+    <p>If you have any questions regarding your rights as a research participant, please contact Dr.
+        Chris Hayhow, Director of Research Compliance, Ohio University, (740)593­0664 or
+        <a href="mailto:hayhow@ohio.edu">hayhow@ohio.edu</a>.</p>
+
+    <p>By clicking “YES” below, you are agreeing that:</p>
+    <ul>
+        <li>you have read this consent form (or it has been read to you) and have been given the
+        opportunity to ask questions and have them answered;</li>
+        <li>you have been informed of potential risks and they have been explained to your
+        satisfaction;</li>
+        <li>you understand Ohio University has no funds set aside for any injuries you might receive
+        as a result of participating in this study;</li>
+        <li>you are 18 years of age or older;</li>
+        <li>your participation in this research is completely voluntary;</li>
+        <li>you may leave the study at any time; if you decide to stop participating in the study, there
+        will be no penalty to you and you will not lose any benefits to which you are otherwise entitled.</li>
+    </ul>
+
+    <p class="text-info">If you agree to participate in this experiment, please press <span class="text-info">“YES”</span></p>
+
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <input type="submit" value="Yes" class="btn btn-primary btn-large btn-primary next-button">
+    </span>
+</div>
+
+{% endblock %}

@@ -120,7 +120,7 @@ mturk_hit_settings = {
 
 SESSION_CONFIG_DEFAULTS = {
     'real_world_currency_per_point': 0.01,
-    'participation_fee': 10.00,
+    'participation_fee': 5,
     'num_bots': 12,
     'doc': "",
     'group_by_arrival_time': False,
@@ -155,6 +155,34 @@ SESSION_CONFIGS = [
         'num_demo_participants': 20,
         'app_sequence': ['real_effort'],
         'player_type': 4
+    },
+    {
+        'name': 'real_effort_type_5',
+        'display_name': "Real Effort - Player Type 5",
+        'num_demo_participants': 20,
+        'app_sequence': ['real_effort'],
+        'player_type': 5
+    },
+    {
+        'name': 'real_effort_type_6',
+        'display_name': "Real Effort - Player Type 6",
+        'num_demo_participants': 20,
+        'app_sequence': ['real_effort'],
+        'player_type': 6
+    },
+    {
+        'name': 'real_effort_type_7',
+        'display_name': "Real Effort - Player Type 7",
+        'num_demo_participants': 20,
+        'app_sequence': ['real_effort'],
+        'player_type': 7
+    },
+    {
+        'name': 'real_effort_type_8',
+        'display_name': "Real Effort - Player Type 8",
+        'num_demo_participants': 20,
+        'app_sequence': ['real_effort'],
+        'player_type': 8
     },
 ]
 

@@ -6,20 +6,22 @@
 {% endblock %}
 
 {% block content %}
+<div class="row">
+    <h3>Part 1:</h3>
+    <p>You are about to enter into the paid portion of the experiment. You will have a total of 5 minutes
+    to type as many strings as you like. A timer in the upper right hand side of your screen will show
+    your time remaining. Once the five minutes are up, you will be automatically redirected to the
+    instructions for the next part of the experiment. If at any time you are disconnected from this
+    website, you can follow the initial link in your email which will take you back to the experiment
+    (in progress – the clock will continue to run, even if the browser is closed).</p>
+    <p>If you prefer not to perform this task, you are free to browse the web but you will only have the
+    allotted time to complete the tasks and earn money.</p>
+    <p>Please press the <span class="text-info">Continue</span> button to begin.</p>
+</div>
 
-    <p>
-        You are about to enter into a <strong>{{time_limit}} Minutes</strong>.
-    </p>
-
-    <p>You will be asked to transcribe text the same task as in the practice round you just completed</p>
-
-    <p>Press the <b>Start Button</b> to begin.</p>
-
+<div class="row">
     <span class="pull-right">
-        <p>
-            <input type="submit" value="Start" class="btn btn-primary btn-large btn-primary next-button">
-        </p>
+        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
     </span>
-    <br>
-
+</div>
 {% endblock %}

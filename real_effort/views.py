@@ -93,7 +93,19 @@ for rtext in Constants.reference_texts:
 # REAL PAGES ITSELF
 # =============================================================================
 
+class Consent(Page):
+    pass
+
+
 class Introduction(Page):
+    pass
+
+
+class GeneralDescription(Page):
+    pass
+
+
+class TaskDescription(Page):
     pass
 
 
@@ -163,6 +175,7 @@ class ResultsRound1(Page):
 # =============================================================================
 
 page_sequence = (
-    [Introduction] + test_pages +
+    [Consent, Introduction, GeneralDescription, TaskDescription] +
+    test_pages +
     [BeforeRound1, Round1, ResultsRound1]
 )

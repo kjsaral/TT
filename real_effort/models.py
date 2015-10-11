@@ -11,6 +11,7 @@ import random
 from django.core.validators import MaxLengthValidator
 # </standard imports>
 
+from django.conf import settings
 from django.utils import timezone
 
 import collections
@@ -34,14 +35,16 @@ class Constants(otree.constants.BaseConstants):
     name_in_url = 'real_effort'
     players_per_group = None
     num_rounds = 1
-
+    participation_fee = c(settings.SESSION_CONFIG_DEFAULTS["participation_fee"])
     dtol = 0.0
 
     skip_text, timesup_text = "-* Skipped *-", "-* Times Up *-"
 
     png_encoding = "base64"
-    player_types = [1, 2, 3, 4]
-    pt1, pt2, pt3, pt4 = player_types
+    player_types = [1, 2, 3, 4, 5, 6, 7, 8]
+    for ptype in player_types:
+        env = locals()
+        env["pt{}".format(ptype)] = ptype
 
     a_payoff, b_payoff = c("0.10"), c("0.23")
 
@@ -73,7 +76,9 @@ class Constants(otree.constants.BaseConstants):
                       png=txt2png.render(text, encoding=png_encoding))
         for idx, text in enumerate(reference_only_texts)]
 
-    continue_in_the_round = random.random()
+    taskdescription_text = ReferenceText(
+        idx=0, text="75CNBQDHOQ 56KUBCI 9S Q",
+        png=txt2png.render("75CNBQDHOQ 56KUBCI 9S Q", encoding=png_encoding))
 
 
 class Subsession(otree.models.BaseSubsession):
