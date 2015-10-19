@@ -22,11 +22,11 @@
     </p>
     <br>
     <div>
-        <img src="data:image/png;base64,{{Constants.taskdescription_text.png}}"  style="margin:0 auto;"/>
+        <img src="data:image/png;base64,{{Constants.taskdescription_png}}"  style="margin:0 auto;"/>
     </div>
     <br>
     <div>
-        <textarea id="fake-textarea">{{Constants.taskdescription_text.text}}</textarea>
+        <textarea id="fake-textarea">{{Constants.taskdescription_text}}</textarea>
     </div>
     <br>
     <div class="pull-right">
@@ -64,7 +64,7 @@
             });
 
             $("#fake-textarea").keyup(function() {
-                $("#fake-textarea").val("{{Constants.taskdescription_text.text}}");
+                $("#fake-textarea").val("{{Constants.taskdescription_text}}");
             });
         });
     </script>

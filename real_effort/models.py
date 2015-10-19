@@ -14,8 +14,6 @@ from django.core.validators import MaxLengthValidator
 from django.conf import settings
 from django.utils import timezone
 
-import collections
-
 import six
 
 from .libs import txt2png, txtutils
@@ -27,8 +25,6 @@ the text into a text entry field. The quality of a subject's transcription is
 measured by the
 <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance</a>.
 """
-
-ReferenceText = collections.namedtuple("ReferenceText", ["idx", "text", "png"])
 
 class Constants(otree.constants.BaseConstants):
 
@@ -60,7 +56,7 @@ class Constants(otree.constants.BaseConstants):
 
     transcriptions_limit = 500
 
-    reference_only_texts = (
+    reference_texts = [
         "12M1ZU J2KO ERP H O9DRYA",
         "4C3 J H4 LF UJN8BBTX KPA9",
         "4NOOIZ C8Z3WJ E5Q9Q OGH",
@@ -70,15 +66,14 @@ class Constants(otree.constants.BaseConstants):
         "JEA86MGZ S 5Z4COQ3 I BWJ",
         "IJ LD JS QFP 3T3MYS0AY01",
         "PXZ 6LH3OYCDJ A49Q I1UV",
-        "A15DS TV0TEC CRYCC8D 9Z")
-    reference_texts = [
-        ReferenceText(idx=idx+1, text=text,
-                      png=txt2png.render(text, encoding=png_encoding))
-        for idx, text in enumerate(reference_only_texts)]
+        "A15DS TV0TEC CRYCC8D 9Z"]
+    reference_pngs = [
+        txt2png.render(text, encoding=png_encoding)
+        for text in reference_texts]
+    training_counts = len(reference_texts)
 
-    taskdescription_text = ReferenceText(
-        idx=0, text="75CNBQDHOQ 56KUBCI 9S Q",
-        png=txt2png.render("75CNBQDHOQ 56KUBCI 9S Q", encoding=png_encoding))
+    taskdescription_text = "75CNBQDHOQ 56KUBCI 9S Q"
+    taskdescription_png = txt2png.render(taskdescription_text, encoding=png_encoding)
 
 
 class Subsession(otree.models.BaseSubsession):
@@ -87,6 +82,7 @@ class Subsession(otree.models.BaseSubsession):
         re_type = self.session.config['player_type']
         for player in self.get_players():
             player.player_re_type = re_type
+            player.training_intents = [0] * Constants.training_counts
             round_1_tt, round_2_tt, round_3_tt, intents = [], [], [], []
             while len(intents) < Constants.transcriptions_limit:
                 round_1_tt.append(txtutils.random_string(**Constants.random_string_conf))
@@ -99,6 +95,7 @@ class Subsession(otree.models.BaseSubsession):
             player.round_1_intents = list(intents)
             player.round_2_intents = list(intents)
             player.round_3_intents = list(intents)
+
 
 
 class Group(otree.models.BaseGroup):
@@ -120,6 +117,11 @@ class Player(otree.models.BasePlayer):
 
     transcription = models.TextField()
 
+    training_skip = models.BooleanField(default=False, widget=widgets.HiddenInput())
+    training_start_time = models.DateTimeField()
+    training_idx = models.PositiveIntegerField(default=0)
+    training_intents = models.JSONField()
+
     round_1_start_time = models.DateTimeField()
     round_1_idx = models.PositiveIntegerField(default=0)
     round_1_transcription_texts = models.JSONField()
@@ -136,14 +138,15 @@ class Player(otree.models.BasePlayer):
     round_3_transcription_texts = models.JSONField()
     round_3_intents = models.JSONField()
 
-    skip_training = models.BooleanField(default=False, widget=widgets.HiddenInput())
-    for rtext in Constants.reference_texts:
-        env = locals()
-        env["training_{}".format(rtext.idx)] = models.TextField(null=True)
-        env["training_intents_{}".format(rtext.idx)] = models.PositiveIntegerField()
-
     def set_payoff(self):
         self.payoff = 0
+
+    @property
+    def training_transcription_texts(self):
+        return Constants.reference_texts
+
+    def training_png(self, idx):
+        return Constants.reference_pngs[idx]
 
     def round_1_png(self, idx):
         if not hasattr(self, "__round_1_png"):

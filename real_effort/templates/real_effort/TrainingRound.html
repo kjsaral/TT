@@ -2,7 +2,7 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Transcription task {{transcription_title}}
+    Training Transcription task {{idx_p1}}/{{Constants.training_counts}}
 {% endblock %}
 
 {% block content %}
@@ -42,14 +42,24 @@
 {% block scripts %}
     <script>
         $(document).ready(function(){
+            var intents = {{intents}};
+            var $transcriptionArea = $("textarea#id_transcription");
+            if(intents == 0){
+                var $errorContainer = $transcriptionArea.siblings("div.form-control-errors");
+                $("form#form").siblings("div.alert-danger").remove();
+                $transcriptionArea.parents("div.form-group").removeClass("has-error");
+                $transcriptionArea.val("");
+                $errorContainer.text("");
+            }
+
             $("#submit-input").click(function(evt){
-                $("input#id_skip_training").val("False");
+                $("input#id_training_skip").val("False");
             });
 
             $("#skip-input").click(function(evt){
-                $("input#id_skip_training").val("True");
-                $("textarea#id_{{text_fieldname}}").attr("readonly", "");
-                $("textarea#id_{{text_fieldname}}").val("{{Constants.skip_text}}");
+                $("input#id_training_skip").val("True");
+                $transcriptionArea.attr("readonly", "");
+                $transcriptionArea.val("{{Constants.skip_text}}");
             });
         });
     </script>

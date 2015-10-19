@@ -25,72 +25,7 @@ def vars_for_all_templates(self):
 
 
 # =============================================================================
-# BASE CLASS FOR TRAINING
-# =============================================================================
-
-class TrainingBase(Page):
-
-    template_name = 'real_effort/TranscriptionTraining.html'
-
-    form_model = models.Player
-    form_fields = []
-    text_data = None
-
-    def vars_for_template(self):
-        return {
-            "png": self.text_data.png,
-            "transcription_title": "Training #{}".format(self.text_data.idx),
-            "text_fieldname": self.form_fields[0]}
-
-    def error_message(self, values):
-        field_name, skip_fieldname = self.form_fields
-
-        skip = values[skip_fieldname]
-        if skip:
-            return
-
-        text_user = values[field_name]
-        is_close_enough, distance = text_is_close_enough(
-            text_user, self.text_data.text, Constants.dtol)
-
-        intents_fieldname = "training_intents_{}".format(self.text_data.idx)
-        intents = (getattr(self.player, intents_fieldname) or 0) + 1
-        setattr(self.player, intents_fieldname, intents)
-
-        if is_close_enough:
-            pass
-        elif Constants.dtol == 0.0:
-            return Constants.transcription_error_0
-        else:
-            return Constants.transcription_error_positive
-
-    def is_displayed(self):
-        return self.subsession.round_number == 1 and not self.player.skip_training
-
-
-# =============================================================================
-# DINAMIC CREATION OF TRAINING PAGES
-# =============================================================================
-
-test_pages = []
-
-for rtext in Constants.reference_texts:
-    env = locals()
-
-    class_name = "Training{}".format(rtext.idx)
-
-    fieldname = "training_{}".format(rtext.idx)
-    attrs = {
-        "form_fields": [fieldname, "skip_training"],
-        "text_data": rtext}
-
-    cls = type(class_name, (TrainingBase,), attrs)
-    env[class_name] = cls
-    test_pages.append(cls)
-
-
-# =============================================================================
-# REAL PAGES ITSELF
+# INTRO
 # =============================================================================
 
 class Consent(Page):
@@ -108,6 +43,57 @@ class GeneralDescription(Page):
 class TaskDescription(Page):
     pass
 
+
+# =============================================================================
+# TRAINING
+# =============================================================================
+
+class TrainingRound(Page):
+
+    form_model = models.Player
+    form_fields = ["transcription", "training_skip"]
+
+    def vars_for_template(self):
+        idx = self.player.training_idx
+        return {
+            "idx": idx,
+            "idx_p1": idx+1,
+            "correct_answers": idx,
+            "intents": self.player.training_intents[idx],
+            "text": self.player.training_transcription_texts[idx],
+            "png": self.player.training_png(idx)}
+
+    def error_message(self, values):
+        if values["training_skip"]:
+            return
+
+        idx = self.player.training_idx
+        text_reference = self.player.training_transcription_texts[idx]
+        self.player.training_intents[idx] += 1
+
+        is_close_enough, distance = text_is_close_enough(
+            values["transcription"], text_reference, Constants.dtol)
+
+        if is_close_enough:
+            self.player.training_idx = idx + 1
+        elif Constants.dtol == 0.0:
+            return Constants.transcription_error_0
+        else:
+            return Constants.transcription_error_positive
+
+        if self.player.training_idx < Constants.training_counts:
+            return "----"
+
+    def is_displayed(self):
+        return (not self.player.training_skip)
+
+    def before_next_page(self):
+        self.player.transcription = None
+
+
+# =============================================================================
+# ROUND 1
+# =============================================================================
 
 class BeforeRound1(Page):
 
@@ -174,8 +160,8 @@ class ResultsRound1(Page):
 # PAGE SECUENCE
 # =============================================================================
 
-page_sequence = (
-    [Consent, Introduction, GeneralDescription, TaskDescription] +
-    test_pages +
-    [BeforeRound1, Round1, ResultsRound1]
-)
+page_sequence = [
+    Consent, Introduction, GeneralDescription, TaskDescription,
+    TrainingRound,
+    BeforeRound1, Round1, ResultsRound1
+]
