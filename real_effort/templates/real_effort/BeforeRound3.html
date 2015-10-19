@@ -1,0 +1,64 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Before Round 3 Of Work
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h3>Part 3:</h3>
+
+    <p>You are about to enter into part 3 of the experiment.  The task and screens in this part will be
+    identical to part 2, except you will now participate with two new group members.  You have now
+    been randomly rematched with two new group members with new locations.</p>
+
+    <p class="text-info">
+        <strong>
+            {% if player.player_re_type == Constants.pt1 %}
+                You are participating in an Ohio University computer lab at a designated time.
+                The other two members of your group are each participating in a location and at a time of
+                their choice.
+            {% elif player.player_re_type == Constants.pt2 %}
+                You are participating in an Ohio University computer lab at a designated time.
+                The other two members of your group are also participating in an Ohio University
+                computer lab at a designated time.
+            {% elif player.player_re_type == Constants.pt3 %}
+                You are participating in a location and time of your choice. The other two
+                members of your group are also each participating in a location and at a time of their
+                choice.
+            {% elif player.player_re_type == Constants.pt4 %}
+                You are participating in a location and time of your choice. The other two
+                members of your group are participating in an Ohio University computer lab at a
+                designated time.
+            {% elif player.player_re_type == Constants.pt5 %}
+                You are participating in an Ohio University computer lab at a designated time.
+                One of the other members of your group is participating in a computer lab at Ohio
+                University at a designated time, while the other member is participating in a location and
+                at a time of their choice.
+            {% elif player.player_re_type == Constants.pt6 %}
+                You are participating in an Ohio University computer lab at a designated time.
+                The other two members of your group are also participating in an Ohio University
+                computer lab at a designated time.
+            {% elif player.player_re_type == Constants.pt7 %}
+                You are participating in a location and time of your choice. The other two
+                members of your group are also each participating in a location and at a time of their
+                choice.
+            {% elif player.player_re_type == Constants.pt8 %}
+                You are participating in a location and time of your choice.  One of the other
+                members of your group is participating in a computer lab at Ohio University at a
+                designated time, while the other member is participating in a location and at a time of their
+                choice.
+            {% endif %}
+        </strong>
+    </p>
+
+    <p>Please press the <span class="text-info">Continue</span> button to begin.</p>
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+    </span>
+</div>
+{% endblock %}

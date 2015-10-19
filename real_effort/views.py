@@ -157,11 +157,61 @@ class ResultsRound1(Page):
 
 
 # =============================================================================
+# ROUND 2
+# =============================================================================
+
+class ChangeInGame(Page):
+
+    def vars_for_template(self):
+        return {"minutes": int(Constants.round_2_seconds/60)}
+
+
+class TaskDescription2(Page):
+
+    def vars_for_template(self):
+        return {
+            "result_a": 10 * Constants.a_payoff + (50 * Constants.b_payoff) / 3,
+            "result_b": 20 * Constants.a_payoff + (40 * Constants.b_payoff) / 3
+        }
+
+
+class MemberInformation(Page):
+    pass
+
+
+class BeforeRound2(Page):
+
+    def vars_for_template(self):
+        return {
+            "time_limit": int(Constants.round_2_seconds / 60)}
+
+    def before_next_page(self):
+        self.player.round_2_start_time = timezone.now()
+
+
+# =============================================================================
+# ROUND 3
+# =============================================================================
+
+class BeforeRound3(Page):
+
+    def vars_for_template(self):
+        return {
+            "time_limit": int(Constants.round_3_seconds / 60)}
+
+    def before_next_page(self):
+        self.player.round_3_start_time = timezone.now()
+
+
+# =============================================================================
 # PAGE SECUENCE
 # =============================================================================
 
 page_sequence = [
-    Consent, Introduction, GeneralDescription, TaskDescription,
-    TrainingRound,
-    BeforeRound1, Round1, ResultsRound1
+    #~ Consent, Introduction, GeneralDescription, TaskDescription,
+    #~ TrainingRound,
+    #~ BeforeRound1, Round1, ResultsRound1,
+    ChangeInGame, TaskDescription2, MemberInformation,
+    BeforeRound2, #Round2, ResultsRound2,
+    BeforeRound3, #Round3, ResultsRound3
 ]

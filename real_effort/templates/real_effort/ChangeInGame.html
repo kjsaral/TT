@@ -1,0 +1,51 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Change In Game Information Screen
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <h3>Parts 2 and 3</h3>
+
+    <p>The task in the remaining parts <b>2</b> and <b>3</b> of the experiment are the same
+    as in part 1, however, there are two important changes.</p>
+
+    <p>First, the time limit in both parts is increased to
+       <span class="text-warning">{{minutes}} minutes</span>.</p>
+
+    <p>Second, in both parts you will be randomly and anonymously matched with two other
+    participants to form a group of three. Your group members may be performing the task in the
+    Ohio University computer lab or in a location of their choosing (such as their apartment, the
+    library, a park, etc.). More on this in a moment. </p>
+
+    <p>The other members of your group will be asked to complete the same task as you, and as before,
+    you may choose to browse the internet. Your group members also have the choice to work on the
+    task or browse the internet.</p>
+
+    <p>Because you are now in a group, you will have different options for payment. You can now
+    choose to allocate some or all of your correctly typed strings to individual earnings (account A)
+    or some or all of your correctly typed strings to group earnings (account B). To do so, you will
+    simply press the button labeled <code>“Submit to Account A”</code> or
+    <code>“Submit to Account B”</code> on the screen to submit your typed sting of characters to that account. </p>
+
+    <p>Each string you contribute to your individual earnings pays the same as in part 1 which is
+    <b>{{Constants.a_payoff}}</b> per correct answer. These earnings are only paid to you.</p>
+
+    <p>Each string you or your group members make to the group account pays <b>{{Constants.b_payoff}}</b>
+    to the group. The sum of all earnings to the group account will be divided equally between you and the other two
+    members of the group. </p>
+
+    <p>This means your total earnings will be equal to your individual earnings + your group earnings.</p>
+
+    <p>Please press <span class="text-info">Continue</span> to see a sample screen with the new options.</p>
+
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+    </span>
+</div>
+{% endblock %}

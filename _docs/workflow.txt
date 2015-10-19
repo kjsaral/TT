@@ -1,19 +1,10 @@
 * Introduction
 
-* Training 1
-* Training 2
-* Training 3
-* Training 4
-* Training 5
-* Training 6
-* Training 7
-* Training 8
-* Training 9
-* Training 10
+* Trainins
 
-- Before Round 1
-- Round 1 (solo for 5 minutes)
-- Results round 1
+* Before Round 1
+* Round 1 (solo for 5 minutes)
+* Results round 1
 
 - Changes in game for round 2
 - Sample screen for round 2 A (READ ONLY)

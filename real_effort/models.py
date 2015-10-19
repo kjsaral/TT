@@ -42,7 +42,7 @@ class Constants(otree.constants.BaseConstants):
         env = locals()
         env["pt{}".format(ptype)] = ptype
 
-    a_payoff, b_payoff = c("0.10"), c("0.23")
+    a_payoff, b_payoff = c("0.10"), c("0.18")
 
     random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
 
@@ -126,12 +126,12 @@ class Player(otree.models.BasePlayer):
     round_1_idx = models.PositiveIntegerField(default=0)
     round_1_transcription_texts = models.JSONField()
     round_1_intents = models.JSONField()
+    round_1_a_payoff = models.CurrencyField()
 
     round_2_start_time = models.DateTimeField()
     round_2_idx = models.PositiveIntegerField(default=0)
     round_2_transcription_texts = models.JSONField()
     round_2_intents = models.JSONField()
-    round_1_a_payoff = models.CurrencyField()
 
     round_3_start_time = models.DateTimeField()
     round_3_idx = models.PositiveIntegerField(default=0)

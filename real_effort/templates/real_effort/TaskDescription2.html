@@ -1,0 +1,94 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Task Description 2
+{% endblock %}
+
+{% block content %}
+<div id="sample" class="row well">
+    <h4 class="text-right">SAMPLE</h4>
+    <p>
+        Please transcribe (that is copy) the text below into the input field.
+        Be exact and make sure to get all characters and spaces correct.
+    </p>
+    <br>
+    <div>
+        <img src="data:image/png;base64,{{Constants.taskdescription_png}}"  style="margin:0 auto;"/>
+    </div>
+    <br>
+    <div>
+        <textarea id="fake-textarea">{{Constants.taskdescription_text}}</textarea>
+    </div>
+    <br>
+    <div class="pull-left">
+        <p>Account A pays {{Constants.a_payoff}} per correct answer</p>
+        <input type="submit" value="Submit Account A" class="fake-input btn btn-primary btn-large btn-primary next-button">
+    </div>
+    <div class="pull-right" id="b_payoff">
+        <p>Account B pays {{Constants.b_payoff}} per correct answer</p>
+        <input type="submit" value="Submit Account B" class="fake-input btn btn-primary btn-large btn-primary next-button">
+    </div>
+    <p id="b_payoff_tooltip" style="display: none;">
+        Notice that you now have the hability to contribute to the team in account B
+    </p>
+</div>
+
+<p id="sample_tooltip" style="display: none;">
+    All answers submited to account A continue to pay you {{Constants.a_payoff}} per correct answer.
+    Any answers you submit to the team will be added to the other answers you teammates enter
+    and these will be payd {{Constants.b_payoff}} per answer.
+    The difference is now instead of earning all of this, you will split all earnings with your teammates.
+</p>
+
+<div class="row">
+    <h3>New Payment Example:</h3>
+
+    <p>Suppose you correctly typed 10 for the individual account A and 20 for the group account B.
+    Also assume that the other two group members correctly typed a total of 30 for the group
+    account B. You would make $1 (10x{{Constans.a_payoff}}) from account A and your group would earn a total of
+    $9 (50x{{Constans.b_payoff}}) from account B, which would be divided equally between the three group
+    members, so your share would be $3. <b>Your total earnings would be $1+ $3 = {{result_a}}.</b></p>
+
+    <p>Assume instead that you had allocated more to the individual account. In this case, you allocated
+    20 correctly typed strings to the individual account A and 10 to the group account B, and the
+    amount the other group members contributed to the group account B remained at 30.
+    In this case, you would make <b>20*{{Constants.a_payoff}}+(40*{{Constants.b_payoff}})/3 = {{result_b}}</b></p>
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+    </span>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+
+            $('#b_payoff').tooltip({
+                "trigger": "manual",
+                "title": $("p#b_payoff_tooltip").text()
+            });
+            $('#b_payoff').tooltip("show");
+
+            $('#sample').tooltip({
+                "trigger": "manual",
+                "placement": "right",
+                "title": $("p#sample_tooltip").text()
+            });
+            $('#sample').tooltip("show");
+
+            $(".fake-input").click(function(evt){
+                evt.preventDefault();
+                return false;
+            });
+
+            $("#fake-textarea").keyup(function() {
+                $("#fake-textarea").val("{{Constants.taskdescription_text}}");
+            });
+        });
+    </script>
+{% endblock %}
+
