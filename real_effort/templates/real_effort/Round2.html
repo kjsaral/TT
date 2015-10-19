@@ -1,0 +1,152 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Transcription task
+{% endblock %}
+
+{% block styles %}
+<link href="{% static 'real_effort/flipclock/flipclock.css' %}" rel="stylesheet">
+<style>
+    span.flip-clock-label{
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4">
+        <p class="text-info">
+            <strong>
+                {% if player.player_re_type == Constants.pt1 %}
+                    You are participating in an Ohio University computer lab at a designated time.
+                    The other two members of your group are also participating in an Ohio University
+                    computer lab at a designated time.
+                {% elif player.player_re_type == Constants.pt2 %}
+                    You are participating in an Ohio University computer lab at a designated time.
+                    The other two members of your group are each participating in a location and at a time of
+                    their choice.
+                {% elif player.player_re_type == Constants.pt3 %}
+                    You are participating in a location and time of your choice. The other two
+                    members of your group are participating in an Ohio University computer lab at a
+                    designated time.
+                {% elif player.player_re_type == Constants.pt4 %}
+                    You are participating in a location and time of your choice. The other two
+                    members of your group are also each participating in a location and at a time of their
+                    choice.
+                {% elif player.player_re_type == Constants.pt5 %}
+                    You are participating in an Ohio University computer lab at a designated time.
+                    The other two members of your group are also participating in an Ohio University
+                    computer lab at a designated time.
+                {% elif player.player_re_type == Constants.pt6 %}
+                    You are participating in an Ohio University computer lab at a designated time.
+                    One of the other members of your group is participating in a computer lab at Ohio
+                    University at a designated time, while the other member is participating in a location and
+                    at a time of their choice.
+                {% elif player.player_re_type == Constants.pt7 %}
+                    You are participating in a location and time of your choice.  One of the other
+                    members of your group is participating in a computer lab at Ohio University at a
+                    designated time, while the other member is participating in a location and at a time of their
+                    choice.
+                {% elif player.player_re_type == Constants.pt8 %}
+                    You are participating in a location and time of your choice. The other two
+                    members of your group are also each participating in a location and at a time of their
+                    choice.
+                {% endif %}
+            </strong>
+        </p>
+    </div>
+    <div class="col-md-8">
+        <span class="pull-right">
+            <div id="timer"></div>
+        </span>
+    </div>
+</div>
+
+<div class="row">
+
+    <p>
+        Please transcribe (that is copy) the text below into the input field.
+        Be exact and make sure to get all characters and spaces correct.
+    </p>
+
+    <div>
+        <img src="data:image/png;base64,{{png}}"  style="margin:0 auto;"/>
+    </div>
+
+    <br>
+    <div id="formfields">
+        {% for field in form %}
+            {% formfield field  with label=""%}
+        {% endfor %}
+    </div>
+    <p class="text-info">
+        Correct answers submited to account A: <b>{{correct_answers_a}}</b>
+    </p>
+    <p class="text-warning">
+        Correct answers submited to account B: <b>{{correct_answers_b}}</b>
+    </p>
+
+</div>
+
+<div class="row">
+    <span class="pull-left">
+        <p>
+            Account A pays <b>{{Constants.a_payoff}}</b> per correct answer
+        </p>
+        <p>
+            <input id="submit_a" type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button">
+        </p>
+    </span>
+    <span class="pull-right">
+        <p>
+            Account B pays <b>{{Constants.b_payoff}}</b> per correct answer
+        </p>
+        <p>
+            <input id="submit_b" type="submit" value="Submit Account B" class="btn btn-primary btn-large btn-warning next-button">
+        </p>
+    </span>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'real_effort/flipclock/flipclock.min.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            var intents = {{intents}};
+            var $transcriptionArea = $("textarea#id_transcription");
+            var $shareInput = $("input#id_share");
+            if(intents == 0){
+                var $errorContainer = $transcriptionArea.siblings("div.form-control-errors");
+                $("form#form").siblings("div.alert-danger").remove();
+                $transcriptionArea.parents("div.form-group").removeClass("has-error");
+                $transcriptionArea.val("");
+                $errorContainer.text("");
+            }
+
+            $("input#submit_a").click(function(){
+                $shareInput.val("False");
+            });
+
+            $("input#submit_b").click(function(){
+                $shareInput.val("True");
+            });
+
+            var clock = $('#timer').FlipClock({{time_left}}, {
+                countdown: true,
+                clockFace: 'MinuteCounter',
+                callbacks: {
+                    stop: function(){
+                        $transcriptionArea.attr("readonly", "");
+                        $transcriptionArea.val("{{Constants.timesup_text}}");
+                        $("form#form").submit();
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

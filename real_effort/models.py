@@ -47,7 +47,7 @@ class Constants(otree.constants.BaseConstants):
     random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
 
     # 5, 20 and 20 minutes
-    round_1_seconds, round_2_seconds, round_3_seconds = 5 * 60, 20 * 60, 20 * 60
+    round_1_seconds, round_2_seconds, round_3_seconds = 5 * 60, 0.3 * 60, 20 * 60
 
     # error in case participant is not allowed to make any errors
     transcription_error_0 = "The transcription should be exactly the same as on the image."
@@ -116,6 +116,7 @@ class Player(otree.models.BasePlayer):
                                          max=max(Constants.player_types))
 
     transcription = models.TextField()
+    share = models.BooleanField(default=False, widget=widgets.HiddenInput())
 
     training_skip = models.BooleanField(default=False, widget=widgets.HiddenInput())
     training_start_time = models.DateTimeField()
@@ -132,11 +133,17 @@ class Player(otree.models.BasePlayer):
     round_2_idx = models.PositiveIntegerField(default=0)
     round_2_transcription_texts = models.JSONField()
     round_2_intents = models.JSONField()
+    round_2_shared = models.PositiveIntegerField(default=0)
+    round_2_a_payoff = models.CurrencyField()
+    round_2_b_payoff = models.CurrencyField()
 
     round_3_start_time = models.DateTimeField()
     round_3_idx = models.PositiveIntegerField(default=0)
     round_3_transcription_texts = models.JSONField()
     round_3_intents = models.JSONField()
+    round_3_shared = models.PositiveIntegerField(default=0)
+    round_3_a_payoff = models.CurrencyField()
+    round_3_b_payoff = models.CurrencyField()
 
     def set_payoff(self):
         self.payoff = 0
@@ -156,7 +163,7 @@ class Player(otree.models.BasePlayer):
             self.__round_1_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_1_png[idx]
 
-    def set_round_1_a_payoff(self):
+    def set_round_1_payoff(self):
         self.round_1_a_payoff = Constants.a_payoff * self.round_1_idx
 
     def round_1_time_left(self):
@@ -173,6 +180,18 @@ class Player(otree.models.BasePlayer):
             self.__round_2_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_2_png[idx]
 
+    def set_round_2_payoff(self):
+        count_b = self.round_2_shared
+        if count_b > 0:
+            self.round_2_b_payoff = Constants.b_payoff * count_b
+        else:
+            self.round_2_b_payoff = 0
+        count_a = self.round_2_idx - count_b
+        if count_a > 0:
+            self.round_2_a_payoff = Constants.a_payoff * count_a
+        else:
+            self.round_2_a_payoff = 0
+
     def round_2_time_left(self):
         start = self.round_2_start_time
         now = timezone.now()
@@ -186,6 +205,18 @@ class Player(otree.models.BasePlayer):
             text = self.round_3_transcription_texts[idx]
             self.__round_3_png[idx] = txt2png.render(text, encoding=Constants.png_encoding)
         return self.__round_3_png[idx]
+
+    def set_round_3_payoff(self):
+        count_b = self.round_3_shared
+        if count_b > 0:
+            self.round_3_b_payoff = Constants.b_payoff * count_b
+        else:
+            self.round_3_b_payoff = 0
+        count_a = self.round_3_idx - count_b
+        if count_a > 0:
+            self.round_3_a_payoff = Constants.a_payoff * count_a
+        else:
+            self.round_3_a_payoff = 0
 
     def round_3_time_left(self):
         start = self.round_3_start_time
