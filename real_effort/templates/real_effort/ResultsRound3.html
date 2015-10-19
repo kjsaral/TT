@@ -1,0 +1,37 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <p>
+        In this last round your finished the following work
+    </p>
+
+    <p>
+        <span class="text-info">Correct answers submited to account A: <b>{{correct_answers_a}}</b></span>
+        <br>
+        <span class="text-warning">Correct answers submited to account B: <b>{{correct_answers_b}}</b></span>
+    </p>
+
+    <p>
+        <span class="text-info">Your earnings from account A: <b>{{earnings_a}}</b></span>
+        <br>
+        <span class="text-warning">Your share of earnings from what you contributed to B: <b>{{earnings_b}}</b></span>
+    </p>
+
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <p>
+            <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+        </p>
+    </span>
+</div>
+
+{% endblock %}

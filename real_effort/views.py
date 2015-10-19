@@ -268,15 +268,81 @@ class BeforeRound3(Page):
         self.player.round_3_start_time = timezone.now()
 
 
+class Round3(Page):
+
+    form_model = models.Player
+    form_fields = ["transcription", "share"]
+
+    def vars_for_template(self):
+        idx = self.player.round_3_idx
+        count_b = self.player.round_3_shared
+        count_a = idx - count_b
+        return {
+            "idx": idx,
+            "correct_answers_a": count_a if count_a > 0 else 0,
+            "correct_answers_b": count_b if count_b > 0 else 0,
+            "time_left": self.player.round_3_time_left(),
+            "intents": self.player.round_3_intents[idx],
+            "text": self.player.round_3_transcription_texts[idx],
+            "png": self.player.round_3_png(idx)}
+
+    def error_message(self, values):
+
+        if not self.player.round_3_time_left():
+            return
+
+        share = values["share"]
+        value = values["transcription"]
+
+        idx = self.player.round_3_idx
+        text_reference = self.player.round_3_transcription_texts[idx]
+        self.player.round_3_intents[idx] += 1
+
+        is_close_enough, distance = text_is_close_enough(
+            value, text_reference, Constants.dtol)
+
+        if is_close_enough:
+            self.player.round_3_idx = idx + 1
+        elif Constants.dtol == 0.0:
+            return Constants.transcription_error_0
+        else:
+            return Constants.transcription_error_positive
+
+        if share:
+            self.player.round_3_shared = self.player.round_3_shared + 1
+
+        if self.player.round_3_idx < Constants.transcriptions_limit:
+            return "----"
+
+    def is_displayed(self):
+        return self.player.round_3_time_left()
+
+
+class ResultsRound3(Page):
+
+    def vars_for_template(self):
+        if self.player.round_3_a_payoff is None or self.player.round_3_b_payoff is None:
+            self.player.set_round_3_payoff()
+        count_b = self.player.round_3_shared
+        count_a = self.player.round_3_idx - count_b
+        return {
+            "correct_answers_a": count_a if count_a > 0 else 0,
+            "correct_answers_b": count_b if count_b > 0 else 0,
+            "earnings_a": self.player.round_3_a_payoff,
+            "earnings_b": self.player.round_3_b_payoff,
+        }
+
+
+
 # =============================================================================
 # PAGE SECUENCE
 # =============================================================================
 
 page_sequence = [
-    #~ Consent, Introduction, GeneralDescription, TaskDescription,
-    #~ TrainingRound,
-    #~ BeforeRound1, Round1, ResultsRound1,
-    #ChangeInGame, TaskDescription2, MemberInformation,
+    Consent, Introduction, GeneralDescription, TaskDescription,
+    TrainingRound,
+    BeforeRound1, Round1, ResultsRound1,
+    ChangeInGame, TaskDescription2, MemberInformation,
     BeforeRound2, Round2, ResultsRound2,
-    BeforeRound3, #Round3, ResultsRound3
+    BeforeRound3, Round3, ResultsRound3
 ]

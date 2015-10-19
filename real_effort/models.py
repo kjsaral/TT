@@ -47,7 +47,7 @@ class Constants(otree.constants.BaseConstants):
     random_string_conf = {"numbers": 5, "letters": 15, "spaces": 5}
 
     # 5, 20 and 20 minutes
-    round_1_seconds, round_2_seconds, round_3_seconds = 5 * 60, 0.3 * 60, 20 * 60
+    round_1_seconds, round_2_seconds, round_3_seconds = 5 * 60, 20 * 60, 20 * 60
 
     # error in case participant is not allowed to make any errors
     transcription_error_0 = "The transcription should be exactly the same as on the image."
