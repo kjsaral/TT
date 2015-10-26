@@ -21,13 +21,17 @@
         <textarea id="fake-textarea">{{Constants.taskdescription_text}}</textarea>
     </div>
     <br>
-    <div class="pull-left">
-        <p>Account A pays {{Constants.a_payoff}} per correct answer</p>
-        <input type="submit" value="Submit Account A" class="fake-input btn btn-primary btn-large btn-primary next-button">
-    </div>
-    <div class="pull-right" id="b_payoff">
-        <p>Account B pays {{Constants.b_payoff}} per correct answer</p>
-        <input type="submit" value="Submit Account B" class="fake-input btn btn-primary btn-large btn-warning next-button">
+    <div class="pull-right">
+        <table class="table borderless">
+            <tr>
+                <td class="pull-left"><small>Account A pays {{Constants.a_payoff}} per correct answer</small></td>
+                <td class="pull-right" id="b_payoff"><small>Account B pays {{Constants.b_payoff}} per correct answer</small></td>
+            </tr>
+            <tr>
+                <td class="pull-left"><input type="submit" value="Submit Account A" class="fake-input btn btn-primary btn-large btn-primary next-button"></td>
+                <td class="pull-right"><input type="submit" value="Submit Account B" class="fake-input btn btn-primary btn-large btn-warning next-button"></td>
+            </tr>
+        </table>
     </div>
     <p id="b_payoff_tooltip" style="display: none;">
         Notice that you now have the hability to contribute to the team in account B

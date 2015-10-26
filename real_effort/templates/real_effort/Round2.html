@@ -92,22 +92,18 @@
 </div>
 
 <div class="row">
-    <span class="pull-left">
-        <p>
-            Account A pays <b>{{Constants.a_payoff}}</b> per correct answer
-        </p>
-        <p>
-            <input id="submit_a" type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button">
-        </p>
-    </span>
-    <span class="pull-right">
-        <p>
-            Account B pays <b>{{Constants.b_payoff}}</b> per correct answer
-        </p>
-        <p>
-            <input id="submit_b" type="submit" value="Submit Account B" class="btn btn-primary btn-large btn-warning next-button">
-        </p>
-    </span>
+    <div class="pull-right">
+        <table class="table borderless">
+            <tr>
+                <td class="pull-left"><small>Account A pays {{Constants.a_payoff}} per correct answer</small></td>
+                <td class="pull-right"><small>Account B pays {{Constants.b_payoff}} per correct answer</small></td>
+            </tr>
+            <tr>
+                <td class="pull-left"><input id="submit_a" type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button"></td>
+                <td class="pull-right"><input id="submit_b" type="submit" value="Submit Account B" class="btn btn-primary btn-large btn-warning next-button"></td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 {% endblock %}

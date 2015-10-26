@@ -59,3 +59,7 @@ textarea {
     width: 100% !important;
     max-width: 100% !important;
 }
+
+table.borderless, table.borderless tr, table.borderless td {
+    border: none !important;
+}

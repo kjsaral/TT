@@ -37,10 +37,10 @@ class Constants(otree.constants.BaseConstants):
     skip_text, timesup_text = "-* Skipped *-", "-* Times Up *-"
 
     png_encoding = "base64"
+
     player_types = [1, 2, 3, 4, 5, 6, 7, 8]
-    for ptype in player_types:
-        env = locals()
-        env["pt{}".format(ptype)] = ptype
+    pt1, pt2, pt3, pt4, pt5, pt6, pt7, pt8 = player_types
+
 
     a_payoff, b_payoff = c("0.10"), c("0.18")
 
