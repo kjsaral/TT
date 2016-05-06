@@ -9,9 +9,10 @@
 
 <div class="row">
     <p>
-        Please transcribe (that is copy) the text below into the input field.
-        Be exact and make sure to get all characters and spaces correct.
-    </p>
+        Please transcribe (type) the text below into the input field.
+    Be exact and make sure to get all characters and spaces correct. </p>
+    <p>When you submit your task, if it is correct, it will be added to your Individual Account, which is an account tracking the number of correct tasks.
+    During the paid stages, you will see a live counter updating with the total correct submitted at the bottom of the screen.</p>
 
     <div>
         <img src="data:image/png;base64,{{png}}"  style="margin:0 auto;"/>
@@ -25,18 +26,16 @@
     </div>
 </div>
 
-<div class="row">
-    <span class="pull-right">
-        <p>
-            Account A pays <b>{{Constants.a_payoff}}</b> per correct answer
-        </p>
-        <p>
-            <input id="submit-input" type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button">
-            <input id="skip-input" type="submit" value="Continue" class="btn btn-primary btn-large btn-success next-button">
-        </p>
-    </span>
-    <br>
-</div>
+<table class="table borderless">
+            <tr>
+                <td class="pull-left"><small><b>Individual Account pays {{Constants.a_payoff}} per correct task to you (during the paid portion, this is only practice).</b></small></td>
+                <td class="pull-right"></td>
+            </tr>
+            <tr>
+                <td class="pull-left"><input id="submit-input" type="submit" value="Submit Individual Account" class="btn btn-primary btn-large btn-primary next-button"></td>
+                <td class="pull-right"><input id="skip-input" type="submit" value="Leave Practice" class="btn btn-primary btn-large btn-success next-button"></td>
+            </tr>
+        </table>
 {% endblock %}
 
 {% block scripts %}

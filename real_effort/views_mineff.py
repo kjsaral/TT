@@ -157,16 +157,16 @@ class ResultsRound1(Page):
 # ROUND 2
 # =============================================================================
 
-class ChangeInGame_revshare(Page):
+class ChangeInGame_mineff(Page):
 
     def vars_for_template(self):
         return {"minutes": int(Constants.round_2_seconds/60)}
 
-class ChangeInGame2_revshare(Page):
+class ChangeInGame2_mineff(Page):
     pass
 
 
-class TaskDescription2_revshare(Page):
+class TaskDescription2_mineff(Page):
 
     def vars_for_template(self):
         return {
@@ -179,7 +179,7 @@ class MemberInformation(Page):
     pass
 
 
-class BeforeRound2_revshare(Page):
+class BeforeRound2_mineff(Page):
 
     def vars_for_template(self):
         return {
@@ -189,7 +189,7 @@ class BeforeRound2_revshare(Page):
         self.player.round_2_start_time = timezone.now()
 
 
-class Round2_revshare(Page):
+class Round2_mineff(Page):
 
     form_model = models.Player
     form_fields = ["transcription", "share"]
@@ -268,7 +268,7 @@ class BeforeRound3(Page):
         self.player.round_3_start_time = timezone.now()
 
 
-class Round3_revshare(Page):
+class Round3_mineff(Page):
 
     form_model = models.Player
     form_fields = ["transcription", "share"]
@@ -338,13 +338,13 @@ class ResultsRound3(Page):
 # PAGE SEQUENCE
 # =============================================================================
 
-#this is changed based on the treatment running (revenue sharing / min effort)
+#this is changed based on the treatment running (revenue sharing min effort)
 page_sequence = [
     Consent, Introduction, TaskDescription,
     TrainingRound,
     BeforeRound1, Round1, ResultsRound1,
-    ChangeInGame_revshare,ChangeInGame2_revshare,
-    TaskDescription2_revshare, MemberInformation,
-    BeforeRound2_revshare, Round2_revshare, ResultsRound2,
-    BeforeRound3, Round3_revshare, ResultsRound3
+    ChangeInGame_mineff,ChangeInGame2_mineff,
+    TaskDescription2_mineff, MemberInformation,
+    BeforeRound2_mineff, Round2_mineff, ResultsRound2,
+    BeforeRound3, Round3_mineff, ResultsRound3
 ]

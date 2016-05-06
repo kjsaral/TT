@@ -1,0 +1,151 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Group Stage 2
+{% endblock %}
+
+{% block styles %}
+<link href="{% static 'real_effort/flipclock/flipclock.css' %}" rel="stylesheet">
+<style>
+    span.flip-clock-label{
+        display: none;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4">
+        <p class="text-info">
+            <strong>
+            {% if player.player_re_type == Constants.pt1 %}
+                You are a LAB PARTICIPANT. 
+            {% elif player.player_re_type == Constants.pt2 %}
+                You are a LAB PARTICIPANT. 
+            {% elif player.player_re_type == Constants.pt3 %}
+                You are a TELECOMMUTER.  
+            {% elif player.player_re_type == Constants.pt4 %}
+                You are a TELECOMMUTER.
+            {% elif player.player_re_type == Constants.pt5 %}
+                You are a LAB PARTICIPANT.
+            {% elif player.player_re_type == Constants.pt6 %}
+                You are a LAB PARTICIPANT.
+            {% elif player.player_re_type == Constants.pt7 %}
+                You are a TELECOMMUTER.
+            {% elif player.player_re_type == Constants.pt8 %}
+               You are a TELECOMMUTER.
+            {% endif %}
+    
+            {% if player.player_re_type == Constants.pt1 %}
+                The other two members of your group are also LAB PARTICIPANTS. 
+            {% elif player.player_re_type == Constants.pt2 %}
+                The other two members of your group are TELECOMMUTERS. 
+            {% elif player.player_re_type == Constants.pt3 %}
+                The other two members of your group are LAB PARTICIPANTS.  
+            {% elif player.player_re_type == Constants.pt4 %}
+                The other two members of your group are also TELECOMMUTERS.
+            {% elif player.player_re_type == Constants.pt5 %}
+                The other two members of your group are also LAB PARTICIPANTS.
+            {% elif player.player_re_type == Constants.pt6 %}
+                One member of your group also is a LAB PARTICIPANT, the other is a TELECOMMUTER.
+            {% elif player.player_re_type == Constants.pt7 %}
+                 One member of your group also is a TELECOMMUTER, the other is a LAB PARTICIPANT.
+            {% elif player.player_re_type == Constants.pt8 %}
+               The other two members of your group will also be TELECOMMUTERS.
+            {% endif %}
+            </strong>
+        </p>
+    </div>
+    <div class="col-md-8">
+        <span class="pull-right">
+            <div id="timer"></div>
+        </span>
+    </div>
+</div>
+
+<div class="row">
+
+    <p>
+        Please transcribe (that is copy) the text below into the input field.
+        Be exact and make sure to get all characters and spaces correct.
+    </p>
+        <p>
+        The amount submitted to the individual and group accounts will remain private. You and the other group members will only be told the total number submitted to the group account.
+    </p>
+    
+
+  <div>
+        <img src="data:image/png;base64,{{png}}"  style="margin:0 auto;"/>
+    </div>
+
+    <br>
+    <div id="formfields">
+        {% for field in form %}
+            {% formfield field  with label=""%}
+        {% endfor %}
+    </div>
+    <p align="center" class="text-info">
+        Correct tasks submitted to individual account: <b>{{correct_answers_a}}</b>
+    </p>
+    <p align="center" class="text-warning">
+        Correct tasks submitted to group account: <b>{{correct_answers_b}}</b>
+    </p>
+
+</div>
+
+<div class="row">
+    <div class="center">
+        <table class="table borderless">
+            <tr>
+                <td class="pull-left"><small><b>Individual Account pays {{Constants.a_payoff}} per correct task to you.</b></small></td>
+                <td class="pull-right"><small><b>Group Account pays {{Constants.b_payoff}} per correct task to the group (split equally).</b></small></td>
+            </tr>
+            <tr>
+                <td class="pull-left"><input id="submit_a" type="submit" value="Submit Individual Account" class="btn btn-primary btn-large btn-primary next-button"></td>
+                <td class="pull-right"><input id="submit_b" type="submit" value="Submit Group Account" class="btn btn-primary btn-large btn-warning next-button"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{% static 'real_effort/flipclock/flipclock.min.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            var intents = {{intents}};
+            var $transcriptionArea = $("textarea#id_transcription");
+            var $shareInput = $("input#id_share");
+            if(intents == 0){
+                var $errorContainer = $transcriptionArea.siblings("div.form-control-errors");
+                $("form#form").siblings("div.alert-danger").remove();
+                $transcriptionArea.parents("div.form-group").removeClass("has-error");
+                $transcriptionArea.val("");
+                $errorContainer.text("");
+            }
+
+            $("input#submit_a").click(function(){
+                $shareInput.val("False");
+            });
+
+            $("input#submit_b").click(function(){
+                $shareInput.val("True");
+            });
+
+            var clock = $('#timer').FlipClock({{time_left}}, {
+                countdown: true,
+                clockFace: 'MinuteCounter',
+                callbacks: {
+                    stop: function(){
+                        $transcriptionArea.attr("readonly", "");
+                        $transcriptionArea.val("{{Constants.timesup_text}}");
+                        $("form#form").submit();
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

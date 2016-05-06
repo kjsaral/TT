@@ -1,0 +1,31 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Group Account
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <h3>The Rules of the Group Account:</h3>
+<p>You and the other two members are working under the same framework with the choice to submit tasks to the individual account or group account.
+<p>The minimum number of correct tasks submitted by a group member in the group account generates $0.18 to all group members.
+    
+    This means that if you submit the lowest number of correct tasks, you and the other group members earn $0.18  for every correct task you submitted into the group account. It does not matter if the group members submitted more than this minimum number of correct answers. Only the minimum number will earn the full payment of $0.18 per task. All tasks submitted above the minimum amount earn 0. 
+<p>The higher the minimum number of tasks submitted in the group account, the more all group members earn from the group account. 
+  <h3>Examples:  </h3>
+  <p>If <em>you submit no tasks</em> in the group account, the minimum number submitted is 0 (set by you). All group members would earn 0. </p>
+  <p>If <em>the at least one of the other members submits no tasks</em> in the group account, but you submit 20 tasks, the minimum number submitted is 0 (set by others). All group members would earn 0.  </p>
+  <p>Remember – how much you and the other group members earn depends on the minimum number of tasks submitted to the group account by a group member.</p>
+<p>Suppose now that you submitted 20, and the other group members submitted 30 and 44. The minimum is 20 and each group member would earn 20*$0.18 = $3.60</p>
+<p>Suppose instead that you submitted 40, and the other group members submitted 30 and 44. The minimum is 30 and each group member would earn 30*$0.18 = $5.40</p>
+<p>Press continue to see how this will change the work interface.</p>
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+    </span>
+</div>
+
+{% endblock %}

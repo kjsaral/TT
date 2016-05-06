@@ -1,0 +1,90 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Task Description for Groups
+{% endblock %}
+
+{% block content %}
+<div class="row">
+<p>The black comment bubbles explain the differences in the interface. These will not be visible during the paid portions.</p>
+</div>
+<div id="sample" class="row well">
+    <h4 class="text-left">SAMPLE</h4>
+    <p>
+        Please transcribe (type) the text below into the input field.
+        Be exact and make sure to get all characters and spaces correct.
+    </p>
+    
+    <br>
+    <div>
+        <img src="data:image/png;base64,{{Constants.taskdescription_png}}"  style="margin:0 auto;"/>
+    </div>
+    <br>
+    <div>
+        <textarea id="fake-textarea">{{Constants.taskdescription_text}}</textarea>
+    </div>
+    <br>
+    <div class="center">
+        <table class="table borderless">
+            <tr>
+                <td class="pull-left"><small>Individual Account pays {{Constants.a_payoff}} per correct task to you.</small></td>
+                <td class="pull-right" id="b_payoff"><small>Group Account pays {{Constants.b_payoff}} per correct task for the minimum number submitted.</small></td>
+            </tr>
+            <tr>
+                <td class="pull-left"><input id="submit_a" type="submit" value="Submit Individual Account" class="btn btn-primary btn-large btn-primary next-button"></td>
+                <td class="pull-right"><input id="submit_b" type="submit" value="Submit Group Account" class="btn btn-primary btn-large btn-warning next-button"></td>
+            </tr>
+        </table>
+    </div>
+    <p id="b_payoff_tooltip" style="display: none;">
+        Notice that you now have the ability to submit to the group. Group earnings will depend on the minimum number of submitted tasks by a group member.
+  </p>
+</div>
+
+<p id="sample_tooltip" style="display: none;">
+    All tasks submitted to the Individual Account continue to pay {{Constants.a_payoff}} per correct task (to you alone).
+    Any tasks submitted to the Group Account will be counted alongside the tasks the other members submit. The minimum number submitted will pay {{Constants.b_payoff}} per correct task (to all members of the group).
+</p>
+
+<div class="row">
+<p><em>Your stage earnings = Individual account earnings + Group account earnings.</em></p>
+<p>Please press continue to learn more about your group members.</p>
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+    </span>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+
+            $('#b_payoff').tooltip({
+                "trigger": "manual",
+                "title": $("p#b_payoff_tooltip").text()
+            });
+            $('#b_payoff').tooltip("show");
+
+            $('#sample').tooltip({
+                "trigger": "manual",
+                "placement": "right",
+                "title": $("p#sample_tooltip").text()
+            });
+            $('#sample').tooltip("show");
+
+            $(".fake-input").click(function(evt){
+                evt.preventDefault();
+                return false;
+            });
+
+            $("#fake-textarea").keyup(function() {
+                $("#fake-textarea").val("{{Constants.taskdescription_text}}");
+            });
+        });
+    </script>
+{% endblock %}
+

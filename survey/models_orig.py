@@ -61,31 +61,27 @@ class Player(otree.models.BasePlayer):
 
     major = models.CharField(max_length=1000, verbose_name="What is your major?")
 
-    working_in_a_location_of_their_choice_more_less_to_the_team = models.CharField(
-        verbose_name = "When you were in a group with two TELECOMMUTERS working in a "
-                        "location and time of their choice, did you want to give more "
-                        "to the group account than when you were partnered "
-                        "with two LAB PARTICIPANTS?", max_length=500,widget=widgets.RadioSelect(),
-        choices=["More to the Group Account with TELECOMMUTERS", "Less to the Group Account with TELECOMMUTERS", "Didn't Matter"])
-
-    partners_in_location_their_choice_worked_harder_than_the_lab = models.CharField(
-               verbose_name = "Do you believe your TELECOMMUTER group members gave more/less/the same to the group "
-                        "account than your LAB PARTICIPANT group members?",
-                         max_length=500,widget=widgets.RadioSelect(),
-        choices=["TELECOMMUTERS gave more", "TELECOMMUTERS gave less", "Both types gave the same"])
-
     location_of_your_partners_influence_your_decisions = models.TextField(
-        verbose_name=("Did your group members' type (TELECOMMUTERS or LAB PARTICIPANTS) "
-                      "influence your decisions today in a way not accounted for above? "
-                      "If so, please explain."))
+        verbose_name=("Did the location of your partners influence your "
+                      "decisions of how much to contribute to the individual "
+                      "account versus the team account? If yes, how?"))
+
+    working_in_a_location_of_their_choice_more_less_to_the_team = models.BooleanField(
+        widget=widgets.RadioSelect(),
+        verbose_name = ("When you were partnered with two people working in a "
+                        "location of their choice, did you want to give more "
+                        "to the team or less than when you were partnered "
+                        "with two people working in a lab?"))
+
+    partners_in_location_their_choice_worked_harder_than_the_lab = models.BooleanField(
+        widget=widgets.RadioSelect(),
+        verbose_name = ("Do you believe your partners participation in a "
+                        "location of their choice gave more to the group than "
+                        "your partners working the lab?"))
 
     I_work_best_in = models.CharField(
-        verbose_name="Which do you prefer working in?", max_length=255, widget=widgets.RadioSelect(),
+        verbose_name="Are you", max_length=255, widget=widgets.RadioSelect(),
         choices=["Structured environments", "flexible environments"])
-
-    I_work_prefer = models.CharField(
-        verbose_name="Which type of work do you prefer?", max_length=255, widget=widgets.RadioSelect(),
-        choices=["Working Alone", "Working in Groups"])
 
     risks_in_everyday_life = models.PositiveIntegerField(
         min=1, max=10, widget=widgets.SliderInput(),

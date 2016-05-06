@@ -2,26 +2,20 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Results
+    Results Stage 3
 {% endblock %}
 
 {% block content %}
 
 <div class="row">
-    <p>
-        In this last round your finished the following work
-    </p>
+    <p><span class="text-info">Correct tasks submitted to the Individual Account:<b>{{correct_answers_a}}</b></span>
+        <br>
+        <span class="text-warning"><span class="text-info">Correct tasks submitted to the Group Account:</span>: <b>{{correct_answers_b}}</b></span>    </p>
 
     <p>
-        <span class="text-info">Correct answers submited to account A: <b>{{correct_answers_a}}</b></span>
+        <span class="text-info">Your earnings from the Individual Account are: <b>{{earnings_a}}</b></span>
         <br>
-        <span class="text-warning">Correct answers submited to account B: <b>{{correct_answers_b}}</b></span>
-    </p>
-
-    <p>
-        <span class="text-info">Your earnings from account A: <b>{{earnings_a}}</b></span>
-        <br>
-        <span class="text-warning">Your share of earnings from what you contributed to B: <b>{{earnings_b}}</b></span>
+        <span class="text-warning">Your earnings from the Group Account will provided to you later.<b></b></span>
     </p>
 
 </div>

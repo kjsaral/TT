@@ -7,107 +7,88 @@
 
 {% block content %}
 <div class="row">
-    <p>All choices and group member identities are anonymous. The other members in your group will
-    <b>never</b> be told your specific output, nor will they be told the amount that you allocated to each
-    account. Likewise, you will never be told the specific output of your group members or how
-    much they allocated to each account.</p>
-
-    <h3>There are two types of participants in this experiment:</h3>
-
-    <ol>
-        <li>Those that participate in a computer lab at Ohio University at a designated time</li>
-        <li>Those that can participate in a location of their choice (outside of the computer lab) at any
-        time within a block of 24 hours.</li>
+  <h3>There are two types of participants in this experiment:</h3>
+<em>
+  <ol>
+        <li>Those that participate in a computer lab at Ohio University at a designated time <b>(LAB PARTICIPANTS)</b></li>
+        <li>Those that participate in a location of their choice (e.g. in their apartment, at a coffee shop, in the library, etc.) at any time within a block of 24 hours <b>(TELECOMMUTERS)</b></li>
+       
     </ol>
+  </em>
+<p>&nbsp;</p>
 
-    <p>You will always know where your group members are performing their task when you make
-    your allocation decisions. In Part 2, you will either be paired in a group with two others who are
-    performing the task in the computer lab or two others who are performing the task in a location
-    of their choice. In part 3, you will be paired with two others in the alternate location. In other
-    words, if you are paired with two others who are performing the task in the computer lab in part
-    2, you will be paired with two others who are performing the task in a location of their choice in
-    part 3. If on the other hand you are paired with two others who are performing the task in a
-    location of their choice in part 2, you will be paired with two others who are performing the task
-    in the computer lab in part 3.</p>
-
-    <h3>In this part:</h3>
+   <p class="text-info">
+        <strong>
+            {% if player.player_re_type == Constants.pt1 %}
+                You are a LAB PARTICIPANT. 
+            {% elif player.player_re_type == Constants.pt2 %}
+                You are a LAB PARTICIPANT. 
+            {% elif player.player_re_type == Constants.pt3 %}
+                You are a TELECOMMUTER.  
+            {% elif player.player_re_type == Constants.pt4 %}
+                You are a TELECOMMUTER.
+            {% elif player.player_re_type == Constants.pt5 %}
+                You are a LAB PARTICIPANT.
+            {% elif player.player_re_type == Constants.pt6 %}
+                You are a LAB PARTICIPANT.
+            {% elif player.player_re_type == Constants.pt7 %}
+                You are a TELECOMMUTER.
+            {% elif player.player_re_type == Constants.pt8 %}
+               You are a TELECOMMUTER.
+            {% endif %}
+            </strong>
+             </p>   
+                
+            
+    <h4>In stage 2:</h4>
 
     <p class="text-info">
         <strong>
             {% if player.player_re_type == Constants.pt1 %}
-                You are participating in an Ohio University computer lab at a designated time.
-                The other two members of your group are also participating in an Ohio University
-                computer lab at a designated time.
+                The other two members of your group will also be LAB PARTICIPANTS. 
             {% elif player.player_re_type == Constants.pt2 %}
-                You are participating in an Ohio University computer lab at a designated time.
-                The other two members of your group are each participating in a location and at a time of
-                their choice.
+                The other two members of your group will be TELECOMMUTERS. 
             {% elif player.player_re_type == Constants.pt3 %}
-                You are participating in a location and time of your choice. The other two
-                members of your group are participating in an Ohio University computer lab at a
-                designated time.
+                The other two members of your group will be LAB PARTICIPANTS.  
             {% elif player.player_re_type == Constants.pt4 %}
-                You are participating in a location and time of your choice. The other two
-                members of your group are also each participating in a location and at a time of their
-                choice.
+                The other two members of your group will also be TELECOMMUTERS.
             {% elif player.player_re_type == Constants.pt5 %}
-                You are participating in an Ohio University computer lab at a designated time.
-                The other two members of your group are also participating in an Ohio University
-                computer lab at a designated time.
+                The other two members of your group will also be LAB PARTICIPANTS.
             {% elif player.player_re_type == Constants.pt6 %}
-                You are participating in an Ohio University computer lab at a designated time.
-                One of the other members of your group is participating in a computer lab at Ohio
-                University at a designated time, while the other member is participating in a location and
-                at a time of their choice.
+                One member of your group will also be a LAB PARTICIPANT, the other will be a TELECOMMUTER.
             {% elif player.player_re_type == Constants.pt7 %}
-                You are participating in a location and time of your choice.  One of the other
-                members of your group is participating in a computer lab at Ohio University at a
-                designated time, while the other member is participating in a location and at a time of their
-                choice.
+                 One member of your group will also be a TELECOMMUTER, the other will be a LAB PARTICIPANT.
             {% elif player.player_re_type == Constants.pt8 %}
-                You are participating in a location and time of your choice. The other two
-                members of your group are also each participating in a location and at a time of their
-                choice.
+               The other two members of your group will also be TELECOMMUTERS.
             {% endif %}
-        </strong>
-    </p>
-
-    <p>Each group member knows the locational composition of the team, and all group members are
-    performing this independently – so your group members do not know each other, or you. The
-    other members of your group are likely not participating today.</p>
-
+    </strong></p>
+        <h4>In stage 3:</h4>
     <p class="text-info">
         <strong>
             {% if player.player_re_type == Constants.pt1 %}
-                Your part 3 group members are also participating in an Ohio University
-                computer lab at a designated time.
+                The other two members of your group will be TELECOMMUTERS. 
             {% elif player.player_re_type == Constants.pt2 %}
-                Your part 3 group members are each participating in a location and at a time of
-                their choice.
+                The other two members of your group will also be LAB PARTICIPANTS. 
             {% elif player.player_re_type == Constants.pt3 %}
-                Your part 3 group members are participating in an Ohio University computer lab
-                at a designated time.
+                The other two members of your group will also be TELECOMMUTERS. 
             {% elif player.player_re_type == Constants.pt4 %}
-                Your part 3 group members are also each participating in a location and at a time
-                of their choice.
+                The other two members of your group will be LAB PARTICIPANTS. 
             {% elif player.player_re_type == Constants.pt5 %}
-                Your part 3 group members are also participating in an Ohio University
-                computer lab at a designated time.
+                One member of your group will also be a LAB PARTICIPANT, the other will be a TELECOMMUTER.
             {% elif player.player_re_type == Constants.pt6 %}
-                Your part 3 group members will be in two different locations. One is participating
-                in a computer lab at Ohio University at a designated time, while the other member is
-                participating in a location and at a time of their choice.
+                The other two members of your group will also be LAB PARTICIPANTS.
             {% elif player.player_re_type == Constants.pt7 %}
-                Your part 3 group members will be in two different locations. One is participating
-                in a computer lab at Ohio University at a designated time, while the other member is
-                participating in a location and at a time of their choice.
+                The other two members of your group will also be TELECOMMUTERS.
             {% elif player.player_re_type == Constants.pt8 %}
-                Your part 3 group members are also each participating in a location and at a time
-                of their choice.
+                One member of your group will also be a TELECOMMUTER, the other will be a LAB PARTICIPANT.
             {% endif %}
         </strong>
     </p>
 
+    <p>&nbsp;</p>
+    <p><b>Last Information:</b></p>
+All choices are anonymous. The other members in your group will <b>never</b> be told how many tasks you completed nor the amount that you submitted to each account. Likewise, you will never be given this information for either of your group members.</p>
+    <p>Each group member knows the participant composition of the group (# telecommuters, # lab participants) and all group members are performing this independently – so your group members do not know each other, or you. You will be randomly matched with members of the above type in each stage (new group in stage 3). The other members of your group may not be participating today.</p>
     <p>Please press <span class="text-info">continue</span>.</p>
 
 </div>

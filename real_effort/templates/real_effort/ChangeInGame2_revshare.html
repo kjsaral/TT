@@ -1,0 +1,35 @@
+{% extends "global/Base.html" %}
+{% load staticfiles otree_tags %}
+
+{% block title %}
+    Group Account
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <h3>The Rules of the Group Account:</h3>
+<p>You and the other two members are working under the same framework with the choice to submit tasks to the individual account or group account.
+<p>Every correct task submitted by a group member in the group account generates $0.18 to the group and all group earnings are split equally.
+    
+    This means that you and the other group members each earn $0.06  for every correct task submitted into the group account. It does not matter who submits the correct task in the group account. All earnings are divided equally between all members.
+  <p>The more the group submits to the group account, the more all group members earn from the group account. 
+  <h3>Examples:</h3>
+  <p>
+If <em>you submit no tasks</em> in the group account, but the other members submit enough to earn $3.60, you would earn $1.20 from the group account.
+</p>
+  <p>If <em>the others submit no tasks</em> in the group account, but you put in enough for the group to earn $3.60, you still earn $1.20 from the group account.
+  </p>
+  <p>Remember – how much you and the other group members earn depends on how much all of you together submit into the group account.</p>
+<p>Suppose instead that you and the members of your group together submit a total of 50 correct tasks in the group account. The group earns 50*$0.18 = $9.00, and each group member earns their equal share of this amount, $3.00.
+    
+    Notice that you would receive $3.00 from the group account whether or not you submitted any of your correct tasks into the group account.    </p>
+<p>Press continue to see how this will change the work interface.</p>
+</div>
+
+<div class="row">
+    <span class="pull-right">
+        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+    </span>
+</div>
+
+{% endblock %}

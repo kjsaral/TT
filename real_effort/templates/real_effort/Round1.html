@@ -2,7 +2,7 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Transcription task
+    Individual Stage 1
 {% endblock %}
 
 {% block styles %}
@@ -24,9 +24,10 @@
 
 <div class="row">
     <p>
-        Please transcribe (that is copy) the text below into the input field.
+        Please transcribe (type) the text below into the input field.
         Be exact and make sure to get all characters and spaces correct.
-    </p>
+    The bottom of the screen will update with the total correct tasks submitted to the Individual Account. </p>
+    <p><i>Please note that if you leave this webpage and return, the clock will be slightly off. It will reset to the correct time once you submit a new task. The correct time is always running in the background, so you only 5 minutes to work on tasks. If time has run out by the time you return, when you submit the next task you will be automatically redirected to the results screen.</i></p>
 
     <div>
         <img src="data:image/png;base64,{{png}}"  style="margin:0 auto;"/>
@@ -38,22 +39,25 @@
             {% formfield field  with label=""%}
         {% endfor %}
     </div>
-    <p class="text-info">
-        Correct answers submited to account A: <b>{{correct_answers}}</b>
+    <p align="center" class="text-info">
+        Correct tasks submited to the Individual Account: <b>{{correct_answers}}</b>
     </p>
 
 </div>
 
-<div class="row">
-    <span class="pull-right">
-        <p>
-            Account A pays <b>{{Constants.a_payoff}}</b> per correct answer
-        </p>
-        <p>
-            <input type="submit" value="Submit Account A" class="btn btn-primary btn-large btn-primary next-button pull-right">
-        </p>
-    </span>
-    <br>
+
+<div class="center">
+<table class="table borderless">
+            <tr>
+                <td class="pull-left"><small><b>Individual Account pays {{Constants.a_payoff}} per correct task to you.</b></small></td>
+                <td class="pull-right" id="b_payoff"></td>
+            </tr>
+            <tr>
+                <td class="pull-left"><input type="submit" value="Submit Individual Account" class="btn btn-primary btn-large btn-primary next-button pull-left"></td>
+                <td class="pull-right"></td>
+            </tr>
+        </table>
+
 </div>
 
 {% endblock %}

@@ -2,7 +2,7 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Task Description
+    Work Description
 {% endblock %}
 
 {% block content %}
@@ -11,13 +11,13 @@
     <p>The task you are asked to work on is a transcription task. There will be a series of characters
         (letters and numbers) that appear on your screen, which must be typed into the provided space.
         You must type them exactly as they appear including the spaces. The program is not case
-        sensitive so upper or lower case will be counted as correct. An example task is provided below:</p>
+        sensitive so upper or lower case will be counted as correct. An example task (already typed in) is provided below:</p>
 </div>
 
 <div class="row well">
-    <h4 class="text-right">SAMPLE</h4>
+    <h4 class="text-left">SAMPLE</h4>
     <p>
-        Please transcribe (that is copy) the text below into the input field.
+        Please transcribe (type) the text below into the input field.
         Be exact and make sure to get all characters and spaces correct.
     </p>
     <br>
@@ -29,28 +29,28 @@
         <textarea id="fake-textarea">{{Constants.taskdescription_text}}</textarea>
     </div>
     <br>
-    <div class="pull-right">
+    <div class="center">
         <input id="fake-input" type="submit" value="Submit" class="btn btn-primary btn-large btn-primary next-button">
     </div>
 </div>
 
 <div class="row">
     <p>Once you have typed in the string of characters and hit the “submit” button, the computer will
-    automatically check your answer and if it is correct, you will be paid {{Constants.a_payoff}}. This will add to your
+    automatically check your answer and if it is correct, you will be paid {{Constants.a_payoff}} for that correct task. This will add to your
     total balance of earnings, which is currently {{Constants.participation_fee}} for participating. </p>
     <p>If you have made an error in typing the task, once you press submit, the program will inform you
     of this and you must fix your error before the next string of characters appear. </p>
 
     <h3>Practice:</h3>
-    <p>Please press “Begin Practice” to practice the task. There are 10 practice strings. These practice
+    <p>Please press “Begin Practice” to practice the task. There are 10 practice tasks. These practice
     tasks are unpaid but are provided so you can practice the task before you perform it for payment.
-    If you do not wish to do all 10, you may hit the <span class="text-info">“continue”</span> button at any time during the practice
+    If you do not wish to do all 10, you may hit the <span class="text-info">“Leave Practice”</span> button available to you in the practice screen at any time during the practice
     to proceed to the paid portion of the experiment.</p>
 </div>
 
 <div class="row">
     <span class="pull-right">
-        <input type="submit" value="Continue" class="btn btn-primary btn-large btn-primary next-button">
+        <input type="submit" value="Begin Practice" class="btn btn-primary btn-large btn-primary next-button">
     </span>
 </div>
 {% endblock %}

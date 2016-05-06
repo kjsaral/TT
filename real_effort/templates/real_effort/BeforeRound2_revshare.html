@@ -2,24 +2,19 @@
 {% load staticfiles otree_tags %}
 
 {% block title %}
-    Stage 3 Instructions
+    Stage 2 Instructions
 {% endblock %}
 
 {% block content %}
 <div class="row">
-    <h3>Group Stage 3:</h3>
+    <h3>Group Stage 2:</h3>
 
-    <p> You are about to enter into stage 3, the next paid portion. This stage is identical to stage 2, <b>except you will now participate with two new group members of a different type.</b></p>
-    
-    <p>Recall, there are two types of participants:
-    <ol>
-        <li>Those that participate in a computer lab at Ohio University at a designated time <b>(LAB PARTICIPANTS)</b></li>
-        <li>Those that participate in a location of their choice (e.g. in their apartment, at a coffee shop, in the library, etc.) at any time within a block of 24 hours <b>(TELECOMMUTERS)</b></li>
-       
-    </ol>
+    <p>You are about to enter into stage 2, the next paid portion. You will have a total of 20 minutes to
+    type as many strings as you like. For each correct task you submit to the individual account, you will earn $0.10. For each correct task you submit to the group account, your group will earn $0.18.
+    </p>
  <p>In this stage:</p>
-    <p class="text-info">
-                 <strong>
+   <p class="text-info">
+        <strong>
             {% if player.player_re_type == Constants.pt1 %}
                 You are a LAB PARTICIPANT. 
             {% elif player.player_re_type == Constants.pt2 %}
@@ -37,28 +32,31 @@
             {% elif player.player_re_type == Constants.pt8 %}
                You are a TELECOMMUTER.
             {% endif %}
-            
+    
             {% if player.player_re_type == Constants.pt1 %}
-                The other two members of your group will be TELECOMMUTERS. 
-            {% elif player.player_re_type == Constants.pt2 %}
                 The other two members of your group will also be LAB PARTICIPANTS. 
+            {% elif player.player_re_type == Constants.pt2 %}
+                The other two members of your group will be TELECOMMUTERS. 
             {% elif player.player_re_type == Constants.pt3 %}
-                The other two members of your group will also be TELECOMMUTERS. 
+                The other two members of your group will be LAB PARTICIPANTS.  
             {% elif player.player_re_type == Constants.pt4 %}
-                The other two members of your group will be LAB PARTICIPANTS. 
-            {% elif player.player_re_type == Constants.pt5 %}
-                One member of your group will also be a LAB PARTICIPANT, the other will be a TELECOMMUTER.
-            {% elif player.player_re_type == Constants.pt6 %}
-                The other two members of your group will also be LAB PARTICIPANTS.
-            {% elif player.player_re_type == Constants.pt7 %}
                 The other two members of your group will also be TELECOMMUTERS.
+            {% elif player.player_re_type == Constants.pt5 %}
+                The other two members of your group will also be LAB PARTICIPANTS.
+            {% elif player.player_re_type == Constants.pt6 %}
+                One member of your group will also be a LAB PARTICIPANT, the other will be a TELECOMMUTER.
+            {% elif player.player_re_type == Constants.pt7 %}
+                 One member of your group will also be a TELECOMMUTER, the other will be a LAB PARTICIPANT.
             {% elif player.player_re_type == Constants.pt8 %}
-                One member of your group will also be a TELECOMMUTER, the other will be a LAB PARTICIPANT.
+               The other two members of your group will also be TELECOMMUTERS.
             {% endif %}
-        </strong>
-    </p>
+            </strong>
+             </p> 
 
-    <p>Please press the <span class="text-info">Continue</span> button to begin stage 3.</p>
+
+    <p><em>If you prefer not to perform this work, you are free to browse the web instead. The other two group members have this same option.</em></p>
+
+    <p>Please press the <span class="text-info">Continue</span> button to begin stage 2.</p>
 </div>
 
 <div class="row">
