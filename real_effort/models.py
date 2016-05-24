@@ -28,7 +28,7 @@ measured by the
 
 class Constants(otree.constants.BaseConstants):
 
-    name_in_url = 'real_effort'
+    name_in_url = 'TT'
     players_per_group = None
     num_rounds = 1
     participation_fee = c(settings.SESSION_CONFIG_DEFAULTS["participation_fee"])
